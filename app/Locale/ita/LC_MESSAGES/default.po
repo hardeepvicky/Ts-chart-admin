@@ -1,0 +1,123 @@
+<?php
+msgid "First Name" 
+msgstr "Nome di battesimo"
+
+msgid "Last Name" 
+msgstr "Cognome"
+
+msgid "Email" 
+msgstr "E-mail"
+
+msgid "Username" 
+msgstr "Nome utente"
+
+msgid "Template"
+msgstr "Modello"
+
+msgid "Edit" 
+msgstr "Modifica"
+
+msgid "Preview" 
+msgstr "Anteprima"
+
+msgid "Password" 
+msgstr "Parola d'ordine"
+
+msgid "Confirm Password" 
+msgstr "conferma password"
+
+msgid "Welcome" 
+msgstr "benvenuto"
+
+msgid "Please login" 
+msgstr "Accedete, per favore"
+
+msgid "Create Account" 
+msgstr "Creare un profilo"
+
+msgid "Home" 
+msgstr "Casa"
+
+msgid "Forgot Password" 
+msgstr "Ha dimenticato la password"
+
+msgid "Login" 
+msgstr "Accesso"
+
+msgid "Signup" 
+msgstr "Registrazione"
+
+msgid "Sign Up" 
+msgstr "Registrazione"
+
+msgid "To Create a Resume" 
+msgstr "Creare un Resume"
+
+msgid "Signin" 
+msgstr "Registrati"
+
+msgid "Sign In" 
+msgstr "Registrati"
+
+msgid "Template" 
+msgstr "Modello"
+
+msgid "Publish" 
+msgstr "Pubblicare"
+
+msgid "Preview" 
+msgstr "Anteprima"
+
+msgid "Download" 
+msgstr "Scaricare"
+
+msgid "Select Template" 
+msgstr "Seleziona modello"
+
+msgid "Contact Details" 
+msgstr "Dettagli del contatto"
+
+msgid "Summary" 
+msgstr "Sommario"
+
+msgid "Education" 
+msgstr "educazione"
+
+msgid "Employment History" 
+msgstr "storico lavorativo"
+
+msgid "Professional Skills" 
+msgstr "abilità professionali"
+
+msgid "Languages" 
+msgstr "Le lingue"
+
+msgid "References" 
+msgstr "Riferimenti"
+
+msgid "Settings" 
+msgstr "impostazioni"
+
+msgid "Dashboard" 
+msgstr "Cruscotto"
+
+msgid "Become a Premium User" 
+msgstr "Diventa un utente Premium"
+
+msgid "Change Password" 
+msgstr "Cambia la password"
+
+msgid "Sign out" 
+msgstr "disconnessione"
+
+msgid "Signup" 
+msgstr "Registrazione"
+
+msgid "Do you want your resume to be published free of charge on cliclavoro.il the national job offers portal?" 
+msgstr "Vuoi che il tuo curriculum sia pubblicato gratuitamente su cliclavoro.il il portale nazionale di offerte lavorative?"
+
+msgid "Yes" 
+msgstr "sì"
+
+msgid "No" 
+msgstr "no"

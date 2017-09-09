@@ -1,0 +1,63 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jul 13, 2017, 4:30:37 PM
+    Author     : Hardeep
+*/
+
+.tf-tabs > ul.tab-header
+{
+    display: table;
+    width: 100%;
+    margin: 0 0 10px 0;
+    padding: 0;
+}
+
+.tf-tabs ul.tab-header > li
+{
+    display: table-cell;
+    text-align: center;
+    padding : 10px 15px;     
+    background-color: #E0E0E0;
+    border-left: 2px solid #FFF;
+}
+
+.tf-tabs ul.tab-header > li:first-child
+{
+    border-left: 0;
+}
+
+.tf-tabs ul.tab-header > li:hover
+{
+    cursor: pointer;
+}
+
+.tf-tabs ul.tab-header > li.tab-active
+{
+    background-color: #E0E0E0;
+    opacity: 1;
+}
+
+.tf-tabs .tab-header > .tab-opener
+{
+    position: relative;
+}
+
+.tf-tabs .tab-opener .indicator
+{
+    position: absolute;
+    bottom: -10px;
+    font-size: 30px;
+    left : 50%;
+    margin-left: -5px;
+    display: none;
+}
+
+
+.tf-tabs .tab-active .indicator
+{
+    display: block;
+}

@@ -1,0 +1,227 @@
+.hidden
+{
+    display: none;
+}
+
+.full-width
+{
+  width: 100%;
+}
+
+.error-msg{
+    color: red;
+    display: none;
+}
+
+.error-message
+{
+    color : red;
+}
+
+.summary-link
+{
+    padding: 5px;
+}
+
+a.summary-link:hover
+{
+    text-decoration: none;
+}
+
+.icon
+{
+    font-size: 20px;
+}
+
+
+.pagination li.current
+{
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    line-height: 1.42857;
+    text-decoration: none;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin-left: -1px;
+}
+
+.modal-dialog {
+    margin: 70px auto;
+}
+
+.css-toggler
+{
+    cursor: pointer;
+}
+
+.css-toggler:hover
+{
+    color : #004A91 !important;
+}
+
+/**---------loading dots --------------- */
+.loader_dot{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+div > .loader_dot{
+    font-size: 40px;
+}
+
+@keyframes blink {50% { color: transparent }}
+.loader_dot { animation: 1s blink infinite }
+.loader_dot:nth-child(2) { animation-delay: 250ms }
+.loader_dot:nth-child(3) { animation-delay: 500ms }
+
+/***------- Summary Header-----------**/
+.table__structure thead a{
+    color: #fff;
+    text-decoration: underline;
+}
+
+.table__structure thead tr
+{
+    background: #36c6d3 none repeat scroll 0 0;
+    color: #ffffff;
+}
+
+.portlet.calendar .fc-event .fc-title
+{
+    font-size: 12px !important;
+}
+
+tr.center td, tr.center th, td.center
+{
+    text-align: center;
+    vertical-align: middle !important;
+}
+
+.font-icon
+{
+    font-size: 20px;
+}
+
+.template .row-adder, .template .row-deleter
+{
+    cursor: pointer;
+}
+
+.details
+{
+    background-color: #F1F4F7;
+}
+
+/*---------- Data Table ------------------*/
+.dt-button{
+    
+    padding: 6px 12px!important;
+}
+
+.dt-button.buttons-csv 
+{
+    background-color: #FFF;
+    border-color: #8E44AD;
+    color: #8E44AD;
+    background-image: none;
+}
+
+.dt-button.buttons-csv:hover{
+    background-color:#8E44AD !important;
+    border-color:#8E44AD !important;
+    color: #FFF  !important;
+}
+
+.dt-button.buttons-excel
+{
+    background-color: #FFF;
+    border-color: #32c5d2;
+    color: #32c5d2;
+    background-image: none;
+}
+
+.dt-button.buttons-excel:hover{
+    background-color:#32c5d2 !important;
+    border-color: #32c5d2 !important;
+    color: #FFF  !important;
+}
+
+.dt-button.buttons-pdf
+{
+    background-color: #FFF;
+    border-color: #E7505A;
+    color: #E7505A;
+    background-image: none;
+}
+
+.dt-button.buttons-pdf:hover{
+    background-color:#E7505A !important;
+    border-color: #E7505A !important;
+    color: #FFF  !important;
+}
+
+.dt-button.buttons-print
+{
+    background-color: #FFF;
+    border-color: #000;
+    color: #000;
+    background-image: none;
+}
+
+.dt-button.buttons-print:hover{
+    background-color:#000 !important;
+    border-color: #000 !important;
+    color: #FFF  !important;
+}
+
+/*----------------- Form ------------------------- */
+.form__structure .form-group .input-group .form-control
+{
+    border-radius: 0px 4px 4px 0px !important;
+}
+
+.form__structure .form-group .input-group .input-group-addon
+{
+    border-radius: 4px 0px 0px 4px !important;
+}
+
+.form-control:active, .form-control:focus
+{
+    border-color : #36C6D3;
+}
+
+.form-inline-control
+{
+    padding : 4px;
+    height : auto;
+    width : 100% !important;
+}
+
+.form-inline .select2-container--bootstrap .select2-selection--single 
+{
+    height: 30px;
+    line-height: 1.42857;
+    padding: 4px 20px 4px 5px;
+    width : 100% !important;
+}
+
+.error-message
+{
+    display: inline-block;
+}
+
+span.narration
+{
+    font-size: 12px;
+}
+
+.no-right-border
+{
+    border-right : none !important;
+}
+
+.error-duplicate-product{
+    display: none;
+}
