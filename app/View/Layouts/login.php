@@ -14,7 +14,6 @@
         <meta content="Preview page of Metronic Admin Theme #1 for " name="description" />
         <meta content="" name="author" />
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
-        <link href="/assets/global/scripts/google_font.css" rel="stylesheet" type="text/css" />
         <link href="/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <link href="/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
         <link href="/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -57,7 +56,6 @@
     <!-- END HEAD -->
 
     <body class="login">
-        <?= $this->element("language") ?>
         <!-- BEGIN LOGO -->
         <div class="logo">
             <img src="/img/company_name_black.png" alt="" /> 
@@ -75,29 +73,20 @@
         <script src="/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
         
         <script src="/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="/assets/global/plugins/js.cookie.min.js" type="text/javascript"></script>
-        <script src="/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
-        <script src="/assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
         <script src="/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
         <!-- END CORE PLUGINS -->
         
         <!-- BEGIN PAGE LEVEL PLUGINS -->
-        <script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
-        <script src="/assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
         <script src="/assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
         <!-- END PAGE LEVEL PLUGINS -->
         
         <!-- BEGIN THEME GLOBAL SCRIPTS -->
         <script src="/assets/global/scripts/app.min.js" type="text/javascript"></script>
         
-        <!-- BEGIN PAGE LEVEL SCRIPTS -->
-        <script src="/assets/pages/scripts/login.min.js" type="text/javascript"></script>
-        
         <!-- END PAGE LEVEL SCRIPTS -->
         <!-- BEGIN THEME LAYOUT SCRIPTS -->
         <!-- END THEME LAYOUT SCRIPTS -->
-        <script src="/js/jquery-extend.js?<?= CSS_VERSION ?>" type="text/javascript"></script>
-        <script src="/js/default.js?time<?= CSS_VERSION; ?>" type="text/javascript"></script>
+        <script src="/js/jquery-extend.js?v=<?= CSS_VERSION ?>" type="text/javascript"></script>
     </body>
 
 </html>

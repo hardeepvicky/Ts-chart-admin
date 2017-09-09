@@ -47,6 +47,8 @@ class AppController extends BaseController
             $this->layout = "ajax";
         }
         
+        $this->Auth->allow();
+        
         if ($this->authUser)
         {
             if ($this->authUser["group_id"] == GROUP_ADMIN)

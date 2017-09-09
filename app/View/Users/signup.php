@@ -115,5 +115,16 @@
             </button>
         </div>
     <?php echo $this->Form->end(); ?>
+    
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-6">
+                <a href="/users/login"><?= __("Login") ?></a>
+            </div>
+            <div class="col-md-6 text-right">
+                <a href="/"><?= __("Home") ?></a>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="copyright hide"> 2014 © Metronic. Admin Dashboard Template. </div>
