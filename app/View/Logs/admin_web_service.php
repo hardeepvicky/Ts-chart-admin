@@ -143,8 +143,7 @@ $title_for_layout = "Web Service Log";
                     </td>
                 </tr>
                 <tr id="<?= $record[$model]['id']; ?>" class="hidden">
-                    <td></td>
-                    <td colspan="5" style="background-color:#EEF2F5; text-align: left;">
+                    <td colspan="6" style="background-color:#EEF2F5; text-align: left;">
                         <?php if ($record[$model]['info']) : ?>
                         <label><b>Highlights</b></label><br/>
                         <div class="portlet-body padding-5 has-margin-bottom-10">

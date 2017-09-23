@@ -13,12 +13,10 @@
 class DateUtility 
 {
     const DATE_FORMAT = 'Y-m-d';
-    const TIME_FORMAT = 'H:i:s';
     const DATETIME_FORMAT = 'Y-m-d H:i:s';
 
-    const DATE_OUT_FORMAT = "d-M-Y";
-    const TIME_OUT_FORMAT = "h:i a";
-    const DATETIME_OUT_FORMAT = 'd-M-Y h:i a';
+    const DATE_OUT_FORMAT = "d-m-Y";
+    const DATETIME_OUT_FORMAT = 'd-m-Y h:i a';
 
     const YEARS = "years";
     const MONTHS = "months";
@@ -93,7 +91,9 @@ class DateUtility
 
 
     /**
+     * 
      * compare dates and return the diffrence between them
+     * 
      * 
      * @param String $start_date
      * @param String $end_date
@@ -111,11 +111,9 @@ class DateUtility
         }
 
         $diff = $to_date->diff($from_date);
-        
+
         $days = $diff->format('%a');
-        
-        $seconds = ($days * 24 * 60 * 60) + ($diff->h * 60 * 60) + ($diff->i * 60) + $diff->s;
-        
+
         switch($type)
         {
             case self::YEARS:              
@@ -123,11 +121,11 @@ class DateUtility
             break;
 
             case self::MONTHS:              
-                $result = ($diff->y * 12) + $diff->m;
+                $result = ($diff->y > 0 ? $diff->y * 12 : 0)  + $diff->m;
             break;
 
             case self::WEEKS:              
-                $result = $days / 7;
+                $result = round($days / 7);
             break;
 
             case self::DAYS:              
@@ -135,15 +133,15 @@ class DateUtility
             break;
 
             case self::HOURS:
-                $result = $seconds / 3600;
+                $result = $days * 24;
             break;
 
             case self::MINTUES:
-                $result = $seconds / 60;
+                $result = $days * 24 * 60;
             break;
 
             default:                
-                $result = $seconds;
+                $result = $days * 24 * 60 * 60;
             break;
         }
 
@@ -231,21 +229,21 @@ class DateUtility
         $list = array();
 
         $diff_days = self::diff($start_date, $end_date, self::DAYS);
-        
-        while($diff_days <= 0)
+
+        while($diff_days >= 0)
         {
-            $str = self::getDate($start_date, $format);
+            $str = self::get($start_date, $format);
 
             $k = "";
             if ($key_format != "{n}")
             {
-                $k = self::getDate($start_date, $key_format);
+                $k = self::get($start_date, $key_format);
             }
 
             if ($hierarchy)
             {
-                $year = self::getDate($start_date, "Y");
-                $month = self::getDate($start_date, "m");
+                $year = self::get($start_date, "Y");
+                $month = self::get($start_date, "m");
 
                 if($k)
                 {
@@ -268,21 +266,11 @@ class DateUtility
                 }
             }
 
-            $start_date = self::change($start_date, 1, DateUtility::DAYS, DateUtility::DATE_FORMAT);
-            
-            $diff_days++;
+            $start_date = self::change($start_date, 1);
+
+            $diff_days--;
         }
 
         return $list;
-    }
-    
-    public static function getLastDateOfMonth($year, $month)
-    {
-        return date("Y-m-t", strtotime(date("$year-$month-d")));
-    }
-    
-    public static function getTotalDaysInMonth($y, $m)
-    {
-        return cal_days_in_month(CAL_GREGORIAN, $m, $y); 
     }
 }

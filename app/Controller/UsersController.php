@@ -25,11 +25,12 @@ class UsersController extends AppController
         $conditions["group_id"] = GROUP_COMPANY_ADMIN;
         
         $this->paginate['recursive'] = 0;
-        
         $records = $this->paginate($this->modelClass, $conditions);
         
+        $company_list = $this->User->Company->getListCache();
+        
         //setting variables
-        $this->set(compact('records'));
+        $this->set(compact('records', 'company_list'));
     }
     
     public function admin_company_sub_manager_summary()
@@ -47,7 +48,8 @@ class UsersController extends AppController
         $records = $this->paginate($this->modelClass, $conditions);
         
         //setting variables
-        $this->set(compact('records'));   
+        $title_for_layout = "Sub Manager";
+        $this->set(compact('records', 'title_for_layout'));   
         $this->render('admin_company_user_summary');
     }
     
@@ -66,7 +68,8 @@ class UsersController extends AppController
         $records = $this->paginate($this->modelClass, $conditions);
         
         //setting variables
-        $this->set(compact('records'));   
+        $title_for_layout = 'Member';
+        $this->set(compact('records', 'title_for_layout'));   
         $this->render('admin_company_user_summary');
     }
         
@@ -78,9 +81,37 @@ class UsersController extends AppController
     {
         parent::add(array("action" => "admin_index"));
         
-        $this->_setList();
-
         $this->render('admin_form');
+    }
+    
+    public function admin_add_company_sub_manager()
+    {
+        if ($this->request->is(array('post', 'put')))
+        {
+            $this->request->data[$this->modelClass]['group_id'] = GROUP_COMPANY_SUB_ADMIN;
+        }
+        
+        parent::add(array("action" => "admin_company_sub_manager_summary"));
+        
+        $title_for_layout = "Sub Manager";
+        $action_title = "Add";
+        $this->set(compact('title_for_layout', 'action_title'));
+        $this->render('admin_form_company_user');
+    }
+    
+    public function admin_add_company_member()
+    {
+        if ($this->request->is(array('post', 'put')))
+        {
+            $this->request->data[$this->modelClass]['group_id'] = GROUP_COMPANY_MEMBER;
+        }
+        
+        parent::add(array("action" => "admin_company_members_summary"));
+        
+        $title_for_layout = "Member";
+        $action_title = "Add";
+        $this->set(compact('title_for_layout', 'action_title'));
+        $this->render('admin_form_company_user');
     }
 
     /**
@@ -96,6 +127,41 @@ class UsersController extends AppController
         $this->render('admin_form');
     }
     
+    public function admin_edit_company_sub_manager($id)
+    {
+        if ($this->request->is(array('post', 'put')))
+        {
+            $this->request->data[$this->modelClass]['group_id'] = GROUP_COMPANY_SUB_ADMIN;
+        }
+        
+        parent::edit($id, array("action" => "admin_company_sub_manager_summary"));
+        
+        $title_for_layout = "Sub Manager";
+        $action_title = "Edit";
+        $this->set(compact('title_for_layout', 'action_title'));
+        $this->render('admin_form_company_user');
+    }
+    
+    public function admin_edit_company_member($id)
+    {
+        if ($this->request->is(array('post', 'put')))
+        {
+            $this->request->data[$this->modelClass]['group_id'] = GROUP_COMPANY_MEMBER;
+        }
+        
+        parent::edit($id, array("action" => "admin_company_members_summary"));
+        
+        $title_for_layout = "Member";
+        $action_title = "Edit";
+        $this->set(compact('title_for_layout', 'action_title'));
+        $this->render('admin_form_company_user');
+    }
+    
+    public function admin_toggleStatus($id)
+    {
+        $this->toggleStatus($id);
+    }
+    
     public function login()
     {
         $this->layout = 'login';
@@ -105,7 +171,6 @@ class UsersController extends AppController
             if ($this->Auth->login())
             {
                 $this->authUser = $this->Auth->user();
-                
                 if(!$this->authUser["is_active"])
                 {
                     $this->authUser = array();
@@ -124,7 +189,7 @@ class UsersController extends AppController
             $menus = Menu::get($this->Acl, $this->authUser['group_id']);
 
             $home_link = Menu::getHomePageLink($menus);
-
+            
             $this->redirect($home_link);
         }
     }
@@ -370,6 +435,8 @@ class UsersController extends AppController
         $group->id = GROUP_ADMIN;
         $this->Acl->deny($group, 'controllers');
         
+        $this->Acl->allow($group, 'controllers/Companies/admin_toggleStatus');
+        
         $this->Acl->allow($group, 'controllers/Users/admin_index');
         $this->Acl->allow($group, 'controllers/Users/admin_change_password');
         
@@ -382,8 +449,14 @@ class UsersController extends AppController
         
         $this->Acl->allow($group, 'controllers/ChartMenus');
         $this->Acl->allow($group, 'controllers/ChartReports');
+        
         $this->Acl->allow($group, 'controllers/Users/admin_company_sub_manager_summary');
+        $this->Acl->allow($group, 'controllers/Users/admin_add_company_sub_manager');
+        $this->Acl->allow($group, 'controllers/Users/admin_edit_company_sub_manager');
         $this->Acl->allow($group, 'controllers/Users/admin_company_members_summary');
+        $this->Acl->allow($group, 'controllers/Users/admin_add_company_member');
+        $this->Acl->allow($group, 'controllers/Users/admin_edit_company_member');
+        $this->Acl->allow($group, 'controllers/Users/admin_toggleStatus');
         $this->Acl->allow($group, 'controllers/Users/admin_change_password');
         
         $group->id = GROUP_COMPANY_SUB_ADMIN;

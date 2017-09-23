@@ -114,7 +114,7 @@ class WebServicesController extends Controller
         
         $company = $this->Company->find("first", array(
             "conditions" => array(
-                "code" => $code
+                "code" => $code,
             ),
             "recursive" => -1
         ));
@@ -122,6 +122,11 @@ class WebServicesController extends Controller
         if (!$company)
         {
             throw new Exception("Invalid Company Code");
+        }
+        
+        if (!$company['Company']['is_active'])
+        {
+            throw new Exception("Company is inactive");
         }
         
         $this->companyID = $company['Company']['id'];
@@ -139,19 +144,22 @@ class WebServicesController extends Controller
                 "username" => $this->request->data["username"],
                 "password" => AuthComponent::password($this->request->data["password"]),
             ),
-            "recursive" => -1
+            "recursive" => 0
         ));
         
         if (!$record)
         {
-            $this->responseData["errors"][] = "Invalid username or password";
-            throw new Exception("Failed");
+            throw new Exception("Invalid username or password");
         }
         
         if (!$record['User']['is_active'])
         {
-            $this->responseData["errors"][] = "User is inactive";
-            throw new Exception("Failed");
+            throw new Exception("User is inactive");
+        }
+        
+        if (!$record['Company']['is_active'])
+        {
+            throw new Exception("Company is inactive");
         }
         
         AppModel::$authUser = $record['User'];

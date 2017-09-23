@@ -215,7 +215,7 @@ class AppController extends BaseController
      * @param Integer $id
      * @param Integer $status
      */
-    public function admin_toggleStatus($id)
+    protected function toggleStatus($id, $redirect = array("action" => "admin_index"))
     {
         //Checks if no ID is passed to the action
         if (!$id)
@@ -226,10 +226,18 @@ class AppController extends BaseController
         //Points model to specific record
         $this->{$this->modelClass}->id = $id;
         $status = $this->{$this->modelClass}->field('is_active');
-        $this->{$this->modelClass}->saveField('is_active', !$status);
+        $status = !$status;
+        $this->{$this->modelClass}->saveField('is_active', $status);
 
-        $this->Session->setFlash('Status change Successfully.', 'flash_success');
-        $this->redirect(array("action" => "admin_index"));
+        if ($redirect)
+        {
+            $this->Session->setFlash('Status change Successfully.', 'flash_success');
+            $this->redirect($redirect);
+        }
+        else
+        {
+            return $status;
+        }
     }
     
     protected function getSearchConditions($inputs)

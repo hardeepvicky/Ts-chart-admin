@@ -71,8 +71,7 @@ $title_for_layout = "Company Admins"
                     <th> Company </th>
                     <th> <?= $this->Paginator->sort('username', __('Username')); ?> </th>
                     <th> <?= $this->Paginator->sort('email', __('Email')); ?> </th>
-                    <th style="width : 8%;"> <?= $this->Paginator->sort('is_active', __('Status')); ?> </th>
-                    <th style="width : 12%;"> Actions </th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -81,27 +80,22 @@ $title_for_layout = "Company Admins"
                     <td><?= $record[$model]['id']; ?></td>
                     <td><?= $record[$model]['firstname']; ?></td>
                     <td><?= $record[$model]['lastname']; ?></td>
-                    <td><?= $company_list[$record['Company']['company_id']]; ?></td>
-                    <td><?= $record[$model]['username']; ?></td>
-                    <td><?= $record[$model]['email']; ?></td>
-                    
                     <td>
-                        <?php $url = $this->AclLink->href(array("action" => "admin_toggleStatus", $record[$model]['id'])); ?>
-                        
-                        <?php if ($url) : ?>
-                            <a href="<?= $url; ?>">
-                                <i class="fa <?= $record[$model]['is_active'] ? "fa-check-circle-o font-green-meadow icon" : "fa-times-circle-o font-red-sunglo icon" ?>"></i>
-                            </a>
+                        <?= $record['Company']['name']; ?>
+                        <?php if (!$record['Company']['is_active']): ?>
+                            <i class="fa fa-ban font-red"></i>
                         <?php endif; ?>
                     </td>
+                    <td><?= $record[$model]['username']; ?></td>
+                    <td><?= $record[$model]['email']; ?></td>
                     <td>
-                        <?php $url = $this->AclLink->href(array("action" => "admin_edit", $record[$model]['id'])); ?>
-                        
-                        <?php if ($url) : ?>
-                        <a href="<?= $url; ?>" title="Edit" class="summary-link">
-                            <i class="fa fa-edit icon blue-madison"></i>
+                        <a href="<?= $this->Html->url(array("controller" => "Companies", "action" => "admin_toggleStatus", $record['Company']['id'])); ?>" title="Edit" class="summary-link">
+                            <?php if ($record['Company']['is_active']): ?>
+                                <span class="font-red">Block Company</span>
+                            <?php else: ?>
+                                <span class="font-blue"> Un-Block Company</span>
+                            <?php endif; ?>
                         </a>
-                        <?php endif; ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>

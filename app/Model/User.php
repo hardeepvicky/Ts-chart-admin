@@ -55,13 +55,17 @@ class User extends AppModel
         if (isset($this->data["User"]["password"]) && !empty($this->data["User"]["password"]))
         {
             $this->data['User']['password'] = AuthComponent::password($this->data['User']['password']);
-            return true;
         } 
         else if (empty($this->data["User"]["password"]))
         {
             unset($this->data["User"]["password"]);
         }
-
+        
+        if ( (!isset($this->data["User"]["company_id"]) || empty($this->data["User"]["company_id"])) && self::$authUser)
+        {
+            $this->data["User"]["company_id"] = self::$authUser['company_id'];
+        }
+        
         return true;
     }
     
