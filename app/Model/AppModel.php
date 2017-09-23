@@ -200,7 +200,6 @@ class AppModel extends Model
         }        
         
         $this->recursive = -1;
-        
         $records = $this->find("all", $arr);
         
         return $this->getTreeArray($records, $parent_id);
@@ -391,37 +390,5 @@ class AppModel extends Model
         }
         //Returns the combined result
         return array_merge($callResult, $outputResult);
-    }
-    
-    public function stock_product_category_wise($inputs)
-    {
-        $spKeys = array(
-            "_parent_category_id", "_category_id", 
-            "_is_active"
-        );
-        
-        return $this->sp("stock_product_category_wise", $inputs, array(), $spKeys);
-    }
-    
-    public function ledger_product_category_wise($inputs)
-    {
-        $spKeys = array(
-            "_parent_category_id", "_category_id",
-            "_product_id", "_is_active",
-            "_from_date", "_to_date"
-        );
-       
-        return $this->sp("ledger_product_category_wise", $inputs, array(), $spKeys);
-    }
-    
-    public function stock_value_category_wise($inputs)
-    {
-        $spKeys = array(
-            "_parent_category_id", "_category_id",
-            "_product_id", "_is_active",
-            "_from_date", "_to_date"
-        );
-       
-        return $this->sp("stock_value_category_wise", $inputs, array(), $spKeys);
     }
 }

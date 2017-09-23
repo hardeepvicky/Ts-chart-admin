@@ -6,24 +6,28 @@
  */
 App::uses('AuthComponent', 'Controller/Component');
 
+require_once APP . 'Config/web_service_constants.php';
+
 class WebServicesController extends Controller
 {
     /**
      * Service name with required attributes     
      */
     public $services = array(
-        WEB_SERVICE_LOGIN => array(
+        WebServiceTypes::LOGIN => array(
             "username" => "",
             "password" => "",
-            "data" => array()
+            "company_id" => ""
+        ),
+        WebServiceTypes::GET_COMPANY_DETAILS => array(
+            "code" => "",
+        ),
+        WebServiceTypes::GET_MENU_REPORTS => array(
+            "company_id" => "",
         ),
     );
     
-    public $serviceTypes = array(
-        "login" => WEB_SERVICE_LOGIN,
-    );
-        
-    public $serviceType = 0, $responseData = array(), $start_time, $authUser, $info = "";
+    public $serviceList, $serviceType = 0, $responseData = array(), $start_time, $companyID, $info = "";
     
     public function beforeFilter()
     {
@@ -35,6 +39,8 @@ class WebServicesController extends Controller
     public function index()
     {
         $json = file_get_contents("php://input");
+        
+        $this->serviceList = WebServiceTypes::getList();
         
         try
         {
@@ -48,21 +54,29 @@ class WebServicesController extends Controller
                 throw new Exception("Failed");
             }
             
-            $this->request->data = $this->_refineData($this->request->data);
-            
             $this->_validateServiceType();
+            
+            $this->responseData["service_name"] = $this->request->data['service_name'];
             
             $this->_validateServiceRequest($this->services[$this->serviceType], $this->request->data);
             
-            $this->_checkLogin();
-            
             switch($this->serviceType)
             {
-                case WEB_SERVICE_LOGIN:
+                case WebServiceTypes::LOGIN:
+                    $this->_checkLogin();
+                    break;
+                
+                case WebServiceTypes::GET_COMPANY_DETAILS:
+                    $this->responseData['data'] = $this->_checkCompanyCode($this->request->data['code']);
+                    break;
+                
+                case WebServiceTypes::GET_MENU_REPORTS:
+                    $this->_get_menu_reports();
                     break;
             }
             
-            $this->responseData["status"] = 1;            
+            $this->responseData["status"] = 1;
+            $this->responseData["msg"] = "Success";
         }
         catch (Exception $ex)
         {
@@ -73,23 +87,75 @@ class WebServicesController extends Controller
         echo $this->_log_update(); exit;
     }
     
+    private function _get_menu_reports()
+    {
+        $this->companyID = $this->request->data['company_id'];
+        $this->loadModel("ChartMenu");
+        
+        $tree = $this->ChartMenu->getTree(array(
+            "fields" => array("id", "parent_id", "name", "type", "fa_icon"),
+            "conditions" => array(
+                "company_id" => $this->companyID,
+                "is_active" => 1
+            ),
+            "contain" => array(
+                "ChartReport" => array(
+                    "fields" => array("type", "name", "csv_file", "url")
+                )
+            )
+        ));
+        
+        $this->responseData['data'] = $tree;
+    }
+    
+    private function _checkCompanyCode($code)
+    {
+        $this->loadModel("Company");
+        
+        $company = $this->Company->find("first", array(
+            "conditions" => array(
+                "code" => $code
+            ),
+            "recursive" => -1
+        ));
+        
+        if (!$company)
+        {
+            throw new Exception("Invalid Company Code");
+        }
+        
+        $this->companyID = $company['Company']['id'];
+        
+        return $company['Company'];
+    }
+    
     private function _checkLogin()
     {
         $this->loadModel("User");
         
-        $this->authUser = $this->User->find("first", array(
+        $record = $this->User->find("first", array(
             "conditions" => array(
+                "company_id" => $this->request->data["company_id"],
                 "username" => $this->request->data["username"],
                 "password" => AuthComponent::password($this->request->data["password"]),
-                "is_active" => 1
-            )
+            ),
+            "recursive" => -1
         ));
         
-        if (!$this->authUser)
+        if (!$record)
         {
-            $this->responseData["errors"][] = "invalid username or password Or user may be inactive";
+            $this->responseData["errors"][] = "Invalid username or password";
             throw new Exception("Failed");
         }
+        
+        if (!$record['User']['is_active'])
+        {
+            $this->responseData["errors"][] = "User is inactive";
+            throw new Exception("Failed");
+        }
+        
+        AppModel::$authUser = $record['User'];
+        $this->companyID = AppModel::$authUser['User']['company_id'];
     }
     
     private function _log_save($json)
@@ -104,7 +170,6 @@ class WebServicesController extends Controller
         $this->WebServiceLog->create();
         $this->WebServiceLog->save(array(
             "request" => $json,
-            "created_on" => date("Y-m-d H:i:s")
         ));
 
         $this->responseData = array(
@@ -118,13 +183,25 @@ class WebServicesController extends Controller
         
         $response = json_encode($this->responseData);
 
-        $this->WebServiceLog->save(array(
+        $record = array(
             "type" => $this->serviceType,
             "response" => $response,
             "info" => $this->info,
             "status" => $this->responseData["status"],
             "execution_time" => $exec_time,
-        ));
+        );
+        
+        if (AppModel::$authUser)
+        {
+            $record['user_id'] = AppModel::$authUser['id'];
+        }
+        
+        if ($this->companyID)
+        {
+            $record['company_id'] = $this->companyID;
+        }
+        
+        $this->WebServiceLog->save($record);
         
         return $response;
     }
@@ -140,9 +217,9 @@ class WebServicesController extends Controller
             throw new Exception("Missing Service");
         }
         
-        if (isset($this->serviceTypes[$this->request->data['service_name']]))
+        if (isset($this->serviceList[$this->request->data['service_name']]))
         {
-            $this->serviceType = $this->serviceTypes[$this->request->data['service_name']];            
+            $this->serviceType = $this->serviceList[$this->request->data['service_name']];            
         }
         else
         {

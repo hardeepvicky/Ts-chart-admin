@@ -6,6 +6,9 @@
  * @license    Proprietary
  * @author     Hardeep
  */
+
+require_once APP . 'Config/web_service_constants.php';
+
 class LogsController extends AppController 
 {
     public function beforeFilter()
@@ -18,7 +21,7 @@ class LogsController extends AppController
     /*
      * @Summary Screen
      */
-    public function admin_web_services()
+    public function admin_web_service()
     {
         $this->Redirect->urlToNamed();
         
@@ -26,15 +29,7 @@ class LogsController extends AppController
         
         $this->loadModel($model);
         
-        $web_service_types = array(
-//            WEB_SERVICE_SAVE_MILK_COLLECTION => "Save Milk Collection",
-//            WEB_SERVICE_GET_FTP_MILK_COLLECTION => "Get FTP Milk Collection",
-//            WEB_SERVICE_GET_HTTP_MILK_COLLECTION => "Get HTTP Milk Collection",
-//            
-//            WEB_SERVICE_SAVE_ITEM_SALE => "Save Item Sale",
-//            WEB_SERVICE_GET_FTP_ITEM_SALE => "Get FTP Item Sale",
-//            WEB_SERVICE_GET_HTTP_ITEM_SALE => "Get HTTP Item Sale",
-        );
+        $web_service_types = array_flip(WebServiceTypes::getList());
         
         $conditions = $this->getSearchConditions(array(
             array('model' => $model, 'field' => 'type', 'type' => 'integer', 'view_field' => 'type'),
@@ -52,7 +47,7 @@ class LogsController extends AppController
     /*
      * @Summary Screen
      */
-    public function admin_crons()
+    public function admin_cron()
     {
         $this->Redirect->urlToNamed();
         

@@ -8,7 +8,7 @@ class UsersController extends AppController
             parent::beforeFilter();
         }
         
-        $this->Auth->allow('login', 'activate', 'language', 'signup', 'signup_send_email', 'account_created', 'logout', "acl", "forgot_password"); 
+        $this->Auth->allow('login', 'activate', 'signup', 'signup_send_email', 'account_created', 'logout', "acl", "forgot_password"); 
         // We can remove this line after we're finished
     }
 
@@ -19,20 +19,57 @@ class UsersController extends AppController
 
         // Sets Search Parameters
         $conditions = $this->getSearchConditions(array(
-            array('model' => $this->modelClass, 'field' => "group_id", 'type' => 'integer', 'view_field' => 'group_id'),
             array('model' => $this->modelClass, 'field' => array('username', "firstname", "lastname", "email"), 'type' => 'string', 'view_field' => 'username')
         ));
         
-        $conditions["group_id"] = GROUP_MEMBER;
+        $conditions["group_id"] = GROUP_COMPANY_ADMIN;
+        
+        $this->paginate['recursive'] = 0;
         
         $records = $this->paginate($this->modelClass, $conditions);
         
-        $this->_setList();
-        
         //setting variables
-        $this->set(compact('records')); 
+        $this->set(compact('records'));
     }
     
+    public function admin_company_sub_manager_summary()
+    {
+        //Converts querystring to named parameter
+        $this->Redirect->urlToNamed();
+
+        // Sets Search Parameters
+        $conditions = $this->getSearchConditions(array(
+            array('model' => $this->modelClass, 'field' => array('username', "firstname", "lastname", "email"), 'type' => 'string', 'view_field' => 'username')
+        ));
+        
+        $conditions["group_id"] = GROUP_COMPANY_SUB_ADMIN;
+        
+        $records = $this->paginate($this->modelClass, $conditions);
+        
+        //setting variables
+        $this->set(compact('records'));   
+        $this->render('admin_company_user_summary');
+    }
+    
+    public function admin_company_members_summary()
+    {
+        //Converts querystring to named parameter
+        $this->Redirect->urlToNamed();
+
+        // Sets Search Parameters
+        $conditions = $this->getSearchConditions(array(
+            array('model' => $this->modelClass, 'field' => array('username', "firstname", "lastname", "email"), 'type' => 'string', 'view_field' => 'username')
+        ));
+        
+        $conditions["group_id"] = GROUP_COMPANY_MEMBER;
+        
+        $records = $this->paginate($this->modelClass, $conditions);
+        
+        //setting variables
+        $this->set(compact('records'));   
+        $this->render('admin_company_user_summary');
+    }
+        
     /**
      * add method
      * @return void
@@ -84,18 +121,11 @@ class UsersController extends AppController
         
         if ($this->authUser)
         {
-            if ($this->authUser['group_id'] == GROUP_ADMIN)
-            {
-                $menus = Menu::get($this->Acl, $this->authUser['group_id']);
+            $menus = Menu::get($this->Acl, $this->authUser['group_id']);
 
-                $home_link = Menu::getDefaultLink($menus);
+            $home_link = Menu::getHomePageLink($menus);
 
-                $this->redirect($home_link);
-            }
-            else
-            {
-                $this->redirect(array("controller" =>  "UserResumes", "action" => "index", "admin" => true));
-            }
+            $this->redirect($home_link);
         }
     }
     
@@ -115,26 +145,43 @@ class UsersController extends AppController
             
             if ($result)
             {
-                $this->request->data["User"]['group_id'] = GROUP_MEMBER;
+                $db = $this->{$this->modelClass}->getDataSource();
+                $db->begin();
                 
-                $this->{$this->modelClass}->create();
-                if ($this->{$this->modelClass}->save($this->request->data))
+                try
                 {
+                    $this->{$this->modelClass}->Company->create();
+                    if (!$this->{$this->modelClass}->Company->save(["Company" => $this->request->data["Company"]]))
+                    {
+                        throw new Exception("Failed to save Company");
+                    }
+                    
+                    $this->request->data["User"]["company_id"] = $this->{$this->modelClass}->Company->id;
+                    $this->request->data["User"]["group_id"] = GROUP_COMPANY_ADMIN;
+                            
+                    $this->{$this->modelClass}->create();
+                    if (!$this->{$this->modelClass}->save(["User" => $this->request->data["User"]]))
+                    {
+                        throw new Exception("Failed to save user");
+                    }
+                    
                     $this->request->data['User']["id"] = $this->{$this->modelClass}->id;
-                    
+
                     $activation_token = Util::getRandomString(30) . $this->request->data['User']["id"];
-                    
+
                     $this->{$this->modelClass}->id = $this->request->data['User']["id"];
                     $this->{$this->modelClass}->saveField("activation_token", $activation_token);
-                    
-                    $this->_signup_send_email($this->request->data['User']["id"]);
-                    
+
+                    //$this->_signup_send_email($this->request->data['User']["id"]);
+
                     $this->Session->setFlash('Account has been created. Email has been sent. To Acitivate the account verfiy your email.', 'flash_success');
-                    
+
+                    $db->commit();
                     $this->redirect(array("action" => "account_created", $this->request->data['User']["id"]));
                 }
-                else
+                catch(Exception $ex)
                 {
+                    $db->rollBack();
                     $this->Session->setFlash('Account fail to create.', 'flash_failure');
                 }
             }
@@ -310,16 +357,7 @@ class UsersController extends AppController
             $this->redirect($this->referer());
         }
     }
-    
-    private function _setList()
-    {
-        $group_list = $this->User->Group->find("list", array(
-            "fields" => array("id", "name"),
-        ));
         
-        $this->set(compact("group_list"));
-    }
-    
     public function initDB()
     {
         $this->autoRender = false;
@@ -330,18 +368,30 @@ class UsersController extends AppController
 
         // Allow admins to everything
         $group->id = GROUP_ADMIN;
-        $this->Acl->allow($group, 'controllers');
-        
-        $group->id = GROUP_MEMBER;
         $this->Acl->deny($group, 'controllers');
         
-        $this->Acl->allow($group, 'controllers/UserResumes');
-        $this->Acl->allow($group, 'controllers/UserResumeEducations');
-        $this->Acl->allow($group, 'controllers/UserResumeEmploymentHistories');
-        $this->Acl->allow($group, 'controllers/UserResumeOtherDetails');
-        $this->Acl->allow($group, 'controllers/UserResumeReferences');
-        $this->Acl->allow($group, 'controllers/UserPayments/admin_payment_for_premium_user');
+        $this->Acl->allow($group, 'controllers/Users/admin_index');
+        $this->Acl->allow($group, 'controllers/Users/admin_change_password');
         
+        $this->Acl->allow($group, 'controllers/Logs/admin_web_service');
+        $this->Acl->allow($group, 'controllers/Logs/admin_cron');
+        $this->Acl->allow($group, 'controllers/Logs/admin_email');
+        
+        $group->id = GROUP_COMPANY_ADMIN;
+        $this->Acl->deny($group, 'controllers');
+        
+        $this->Acl->allow($group, 'controllers/ChartMenus');
+        $this->Acl->allow($group, 'controllers/ChartReports');
+        $this->Acl->allow($group, 'controllers/Users/admin_company_sub_manager_summary');
+        $this->Acl->allow($group, 'controllers/Users/admin_company_members_summary');
+        $this->Acl->allow($group, 'controllers/Users/admin_change_password');
+        
+        $group->id = GROUP_COMPANY_SUB_ADMIN;
+        $this->Acl->deny($group, 'controllers');
+        
+        $this->Acl->allow($group, 'controllers/ChartMenus');
+        $this->Acl->allow($group, 'controllers/ChartReports');
+        $this->Acl->allow($group, 'controllers/Users/admin_company_members_summary');
         $this->Acl->allow($group, 'controllers/Users/admin_change_password');
         
         // we add an exit to avoid an ugly "missing views" error message
@@ -369,10 +419,10 @@ class UsersController extends AppController
         }
     }
     
-    public function aclClearCache()
+    public function clearCache()
     {
-        Cache::clear(false, "acl_config");
-        echo "ACL Clear Cache Run Successfully. </br>"; 
+        Cache::clear(false, 'acl_config'); //clear all cache
+        echo "Clear Cache Run Successfully. </br>"; 
         $this->autoRender = false;
     }
     
@@ -388,7 +438,7 @@ class UsersController extends AppController
         
         echo "<br/>";
         
-        $this->aclClearCache();
+        $this->clearCache();
         
         exit;
     }

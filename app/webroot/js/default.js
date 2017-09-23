@@ -26,12 +26,4 @@ $(document).ready(function()
     });
     
     $(".more-text").moreText();
-    
-    $(".data-table").DataTable( {
-        colReorder: true,
-        dom: 'Bfrtip',
-        buttons: [
-            'csv', 'excel', 'pdf', 'print'
-        ]
-    });
 });

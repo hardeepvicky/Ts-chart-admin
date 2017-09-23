@@ -105,7 +105,7 @@ $title_for_layout = "Web Service Log";
                 <div class="action-buttons text-center">
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <button type="submit" class="btn blue">Search</button>
-                        <a class="btn grey" href="<?= $this->Html->url(array("action" => "admin_web_services")) ?>">Clear</a>
+                        <a class="btn grey" href="<?= $this->Html->url(array("action" => "admin_web_service")) ?>">Clear</a>
                     </div> 
                 </div>
             </div>
@@ -137,7 +137,7 @@ $title_for_layout = "Web Service Log";
                     <td class="text-center">
                         <i class="fa <?= $record[$model]['status'] ? "fa-check-circle-o font-green-meadow icon" : "fa-times-circle-o font-red-sunglo icon" ?>"></i>
                     </td>
-                    <td class="text-center"><?php echo DateUtility::getDate($record[$model]['created_on'], "d-M-Y h:i:s"); ?></td>
+                    <td class="text-center"><?php echo DateUtility::getDate($record[$model]['created'], "d-M-Y h:i:s"); ?></td>
                     <td class="text-center">
                         <a href="javascript:void(0);" class="css-toggler" data-toggler-class="hidden" data-toggler-target="tr#<?= $record[$model]['id']; ?>">Details</a>
                     </td>

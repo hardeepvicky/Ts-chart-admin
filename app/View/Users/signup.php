@@ -45,6 +45,21 @@
         </div>
     
         <div class="form-group">
+            <label class="control-label visible-ie8 visible-ie9"><?= __("Company Name") ?></label>
+            <div class="input-icon">
+                <span>
+                    <i class="fa fa-envelope"></i>
+                </span>
+                <?php 
+                echo $this->Form->input('Company.name', array(
+                    'class' => 'form-control form-control-solid', 
+                    'type' => "text",
+                    "placeholder" => __("Company Name")
+                )); 
+                ?>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="control-label visible-ie8 visible-ie9"><?= __("Email") ?></label>
             <div class="input-icon">
                 <span>
@@ -52,7 +67,7 @@
                 </span>
                 <?php 
                 echo $this->Form->input('email', array(
-                    'class' => 'form-control form-control-solid placeholder-no-fix', 
+                    'class' => 'form-control form-control-solid', 
                     'type' => "text",
                     "placeholder" => __("Email")
                 )); 

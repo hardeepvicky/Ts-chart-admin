@@ -47,23 +47,13 @@ class AppController extends BaseController
             $this->layout = "ajax";
         }
         
-        $this->Auth->allow();
-        
         if ($this->authUser)
         {
-            if ($this->authUser["group_id"] == GROUP_ADMIN)
-            {
-                $menus = Menu::get($this->Acl, $this->authUser['group_id']);
-                
-                $home_link = Menu::getDefaultLink($menus);
+            $menus = Menu::get($this->Acl, $this->authUser['group_id']);
+            
+            $home_link = Menu::getHomePageLink($menus);
 
-                $this->set(compact("home_link", "menus"));
-            }
-            else
-            {
-                $home_link = array("controller" =>  "UserResumes", "action" => "index", "admin" => true);
-                $this->set(compact("home_link"));
-            }
+            $this->set(compact("home_link", "menus"));
         }
     }
 
@@ -240,97 +230,6 @@ class AppController extends BaseController
 
         $this->Session->setFlash('Status change Successfully.', 'flash_success');
         $this->redirect(array("action" => "admin_index"));
-    }
-    
-    /*
-     * Web Api
-     */
-    public function json_get($id = 0)
-    {
-        $conditions = array();
-        
-        if ($id)
-        {
-            $conditions["id"] = $id;
-        }
-        
-        $data = $this->{$this->modelClass}->find("all",array(
-            "conditions" => $conditions,
-            "recursive" => -1
-        ));
-        
-        if ($data)
-        {
-            $data = Set::classicExtract($data, "{n}." . $this->modelClass);
-        }
-        
-        echo json_encode($data); exit;
-    }
-    
-    public function json_edit($id)
-    {
-        $response = array(
-            "status" => 0
-        );
-        
-        try
-        {
-            if (!$id)
-            {
-                throw new Exception("Invalid Id");
-            }
-            
-            $count = $this->{$this->modelClass}->find("count", array("conditions" => array("id" => $id)));
-            
-            if ($count == 0)
-            {
-                throw new Exception("Invalid Id");
-            }
-            
-            $data[$this->modelClass] = $this->request->data;
-            
-            $this->{$this->modelClass}->id = $id;
-            if ($this->{$this->modelClass}->save($data))
-            {
-                $response["status"] = 1;
-            }
-            else
-            {
-                $response["errors"] = $this->{$this->modelClass}->validationErrors;
-            }
-        }
-        catch(Exception $ex)
-        {
-            $response['msg'] = $ex->getMessage();
-        }
-        
-        echo json_encode($response); exit;
-    }
-
-    public function json_delete($id)
-    {
-        $response = array(
-            "status" => 0
-        );
-        
-        try
-        {
-            if (!$id)
-            {
-                throw new Exception("Invalid Id");
-            }
-            
-            if ($this->{$this->modelClass}->delete($id))
-            {
-                $response["status"] = 1;
-            }
-        }
-        catch(Exception $ex)
-        {
-            $response['msg'] = $ex->getMessage();
-        }
-        
-        echo json_encode($response); exit;
     }
     
     protected function getSearchConditions($inputs)

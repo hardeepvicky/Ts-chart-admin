@@ -20,6 +20,10 @@ class User extends AppModel
             'className' => 'Group',
             'foreignKey' => 'group_id'
         ),
+        'Company' => array(
+            'className' => 'Company',
+            'foreignKey' => 'company_id'
+        ),
     );
     
     public $hasMany = array(    );

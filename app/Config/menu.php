@@ -7,25 +7,90 @@ class Menu
             "icon_class" => "icon-layers",
             "links" => array(
                 array(
+                    "title" => "Company Admins",
+                    "icon_class" => "fa fa-reorder",
+                    "link" => array(
+                        "controller" => "users",
+                        "action" => "index",
+                        "admin" => true
+                    ),
+                    "other_links" => array(),
+                    "is_home_page" => true,
+                ),
+                array(
                     "title" => "Sub Admins",
                     "icon_class" => "fa fa-reorder",
                     "link" => array(
                         "controller" => "users",
-                        "action" => "sub_admin",
+                        "action" => "company_sub_manager_summary",
                         "admin" => true
                     ),
-                    "is_home_page" => true,
                     "other_links" => array(),
+                    "is_home_page" => true,
                 ),
                 array(
                     "title" => "Members",
                     "icon_class" => "fa fa-reorder",
                     "link" => array(
                         "controller" => "users",
-                        "action" => "members",
+                        "action" => "company_members_summary",
                         "admin" => true
                     ),
+                    "other_links" => array(),
                     "is_home_page" => true,
+                ),
+            )
+        ),
+        array(
+            "title" => "Menus & Links",
+            "icon_class" => "icon-layers",
+            "links" => array(
+                array(
+                    "title" => "Summary",
+                    "icon_class" => "fa fa-reorder",
+                    "link" => array(
+                        "controller" => "ChartMenus",
+                        "action" => "index",
+                        "admin" => true
+                    ),
+                    "other_links" => array(),
+                    "is_home_page" => true,
+                ),
+                array(
+                    "title" => "Add",
+                    "icon_class" => "fa fa-reorder",
+                    "link" => array(
+                        "controller" => "ChartMenus",
+                        "action" => "add",
+                        "admin" => true
+                    ),
+                    "other_links" => array(),
+                ),
+            )
+        ),
+        array(
+            "title" => "Reports",
+            "icon_class" => "icon-layers",
+            "links" => array(
+                array(
+                    "title" => "Summary",
+                    "icon_class" => "fa fa-reorder",
+                    "link" => array(
+                        "controller" => "ChartReports",
+                        "action" => "index",
+                        "admin" => true
+                    ),
+                    "other_links" => array(),
+                    "is_home_page" => true,
+                ),
+                array(
+                    "title" => "Add",
+                    "icon_class" => "fa fa-reorder",
+                    "link" => array(
+                        "controller" => "ChartReports",
+                        "action" => "add",
+                        "admin" => true
+                    ),
                     "other_links" => array(),
                 ),
             )
@@ -73,33 +138,40 @@ class Menu
             return array();
         }
         
-        $menus = array();
+        $menus = Cache::read("menu_" . $group_id, 'acl_config');
         
-        foreach(self::$links as $menu)
+        if (!$menus)
         {
-            foreach($menu["links"] as $k => $link)
-            {
-                $action = $link['link']['action'];
-                
-                if (isset($link['link']['admin']) && $link['link']['admin'] && strpos($action, "admin_") == FALSE)
-                {
-                    $action = "admin_$action";
-                }
-                
-                $url = $link['link']['controller'] . "/" . $action;
-                
-                if (!$acl->check(array("model" => "Group", "foreign_key" => $group_id), $url))
-                {
-                    unset($menu["links"][$k]);
-                }
-            }
+            $menus = array();
             
-            if (!empty($menu["links"]))
+            foreach(self::$links as $menu)
             {
-                $menus[] = $menu;
+                foreach($menu["links"] as $k => $link)
+                {
+                    $action = $link['link']['action'];
+
+                    if (isset($link['link']['admin']) && $link['link']['admin'] && strpos($action, "admin_") == FALSE)
+                    {
+                        $action = "admin_$action";
+                    }
+
+                    $url = $link['link']['controller'] . "/" . $action;
+
+                    if (!$acl->check(array("model" => "Group", "foreign_key" => $group_id), $url))
+                    {
+                        unset($menu["links"][$k]);
+                    }
+                }
+
+                if (!empty($menu["links"]))
+                {
+                    $menus[] = $menu;
+                }
             }
+
+            Cache::write("menu_" . $group_id, $menus, 'acl_config');
         }
-        
+     
         return $menus;
     }
     

@@ -6,7 +6,7 @@
  * @license    Proprietary
  * @author     Gagandeep Gambhir
  */
-$title_for_layout = "Company Admins"
+$title_for_layout = "Menu & Links Manager";
 ?>
 
 <div class="page-bar">
@@ -15,6 +15,9 @@ $title_for_layout = "Company Admins"
             <?php echo $this->element("breadcum", array("model" => $title_for_layout, "action" => "Summary")); ?>
         </div>
         <div class="col-md-6 pull-right" style="text-align: right; margin-top: 4px;">
+            <a href="<?= $this->Html->url(array("action" => "admin_add")); ?>" class="btn btn-circle green-meadow">
+                <i class="fa fa-plus"></i> Add
+            </a>
         </div>
     </div>
 </div>
@@ -38,11 +41,11 @@ $title_for_layout = "Company Admins"
         <div class="row">
             <div class="col-md-12 col-xs-12">
                 <div class="row">
-                    <div class="col-md-7 col-sm-7 col-xs-12">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="form-group">
-                            <label class="control-label col-md-6 col-sm-6 col-xs-12">Username / Name / Email :</label>
+                            <label class="control-label col-md-6 col-sm-6 col-xs-12">Name :</label>
                             <div class="col-md-5 col-sm-5 col-xs-12">
-                                <?= $this->Form->input('username', array('value' => ${$model . "username"}));?>
+                                <?= $this->Form->input('name', array('value' => ${$model . "name"}));?>
                             </div>
                         </div>
                     </div>
@@ -66,12 +69,9 @@ $title_for_layout = "Company Admins"
             <thead>
                 <tr>
                     <th style="width : 10%;"> <?= $this->Paginator->sort('id', __('Id')); ?> </th>
-                    <th> <?= $this->Paginator->sort('firstname', __('First Name')); ?> </th>
-                    <th> <?= $this->Paginator->sort('lastname', __('Last Name')); ?> </th>
-                    <th> Company </th>
-                    <th> <?= $this->Paginator->sort('username', __('Username')); ?> </th>
-                    <th> <?= $this->Paginator->sort('email', __('Email')); ?> </th>
-                    <th style="width : 8%;"> <?= $this->Paginator->sort('is_active', __('Status')); ?> </th>
+                    <th> Link </th>
+                    <th> <?= $this->Paginator->sort('name', __('Name')); ?> </th>
+                    <th> Type </th>
                     <th style="width : 12%;"> Actions </th>
                 </tr>
             </thead>
@@ -79,29 +79,18 @@ $title_for_layout = "Company Admins"
                 <?php foreach ($records as $record): ?>
                 <tr class="odd gradeX center">
                     <td><?= $record[$model]['id']; ?></td>
-                    <td><?= $record[$model]['firstname']; ?></td>
-                    <td><?= $record[$model]['lastname']; ?></td>
-                    <td><?= $company_list[$record['Company']['company_id']]; ?></td>
-                    <td><?= $record[$model]['username']; ?></td>
-                    <td><?= $record[$model]['email']; ?></td>
-                    
+                    <td><?= $menu_link_list[$record[$model]['chart_menu_id']]; ?></td>
+                    <td><?= $record[$model]['name']; ?></td>
+                    <td><?= ReportTypes::$list[$record[$model]['type']]; ?></td>
                     <td>
-                        <?php $url = $this->AclLink->href(array("action" => "admin_toggleStatus", $record[$model]['id'])); ?>
-                        
-                        <?php if ($url) : ?>
-                            <a href="<?= $url; ?>">
-                                <i class="fa <?= $record[$model]['is_active'] ? "fa-check-circle-o font-green-meadow icon" : "fa-times-circle-o font-red-sunglo icon" ?>"></i>
-                            </a>
-                        <?php endif; ?>
-                    </td>
-                    <td>
-                        <?php $url = $this->AclLink->href(array("action" => "admin_edit", $record[$model]['id'])); ?>
-                        
-                        <?php if ($url) : ?>
-                        <a href="<?= $url; ?>" title="Edit" class="summary-link">
+                        <a href="<?= $this->Html->url(array("action" => "admin_edit", $record[$model]['id'])); ?>" title="Edit" class="summary-link">
                             <i class="fa fa-edit icon blue-madison"></i>
                         </a>
-                        <?php endif; ?>
+                        
+                        <a href="<?= $this->Html->url(array("action" => "admin_delete", $record[$model]['id'])); ?>"  class="summary-link"
+                           data-toggle="confirmation" data-singleton="true" data-popout="true" data-original-title="Are you sure to Delete ?">
+                            <i class="fa fa-trash-o icon font-red-sunglo"></i>
+                        </a>
                     </td>
                 </tr>
                 <?php endforeach; ?>

@@ -11,7 +11,4 @@ define("DROPDOWN_EMPTY_VALUE", "Please Select");
 define("GROUP_ADMIN", 1);
 define("GROUP_COMPANY_ADMIN", 2);
 define("GROUP_COMPANY_SUB_ADMIN", 3);
-define("GROUP_COMPANY_SUB_MEMBER", 4);
-
-//web servicve 
-define("WEB_SERVICE_LOGIN", 1);
+define("GROUP_COMPANY_MEMBER", 4);

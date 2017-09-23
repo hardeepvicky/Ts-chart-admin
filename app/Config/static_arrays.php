@@ -19,3 +19,25 @@ Class EmailTypes
         self::RESUME_PUBLISH => "Resume Publish",
     );
 }
+
+Class MenuTypes
+{
+    const MENU = 1;
+    const LINK = 2;
+    
+    public static $list = array(
+        self::MENU => "Menu",
+        self::LINK => "Link"
+    );
+}
+
+class ReportTypes
+{
+    const INTERNAL = 1;
+    const EXTERNAL = 2;
+    
+    public static $list = array(
+        self::INTERNAL => "Internal (CSV)",
+        self::EXTERNAL => "External (URL)"
+    );
+}

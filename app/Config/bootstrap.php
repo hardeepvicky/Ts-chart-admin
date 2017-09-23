@@ -128,6 +128,8 @@ require_once('DateUtility.php');
 require_once('static_arrays.php');
 require_once('menu.php');
 
+require_once APP . 'vendor/tech-dev-tools/Util.php';
+
 App::uses('CacheDbAcl', 'Lib');
 Configure::write('CacheDbAclConfig', 'acl_config');
 
