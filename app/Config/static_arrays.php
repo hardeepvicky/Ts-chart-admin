@@ -34,10 +34,27 @@ Class MenuTypes
 class ReportTypes
 {
     const INTERNAL = 1;
-    const EXTERNAL = 2;
+    const EXTERNAL_URL = 2;
     
     public static $list = array(
-        self::INTERNAL => "Internal (CSV)",
-        self::EXTERNAL => "External (URL)"
+        self::INTERNAL => "CSV",
+        self::EXTERNAL_URL => "External URL"
+    );
+}
+
+class ChartTypes
+{
+    const LINE = 1;
+    const BAR = 2;
+    const COLUMN = 3;
+    const PIE = 4;
+    const AREA = 5;
+    
+    public static $list = array(
+        self::LINE => "Line",
+        self::BAR => "Bar",
+        self::COLUMN => "Column",
+        self::PIE => "Pie",
+        self::AREA => "Area",
     );
 }

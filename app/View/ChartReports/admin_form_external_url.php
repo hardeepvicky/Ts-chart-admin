@@ -1,17 +1,15 @@
 <?php
 /**
- * @created    06-03-2017
- * @package    Dairy
- * @copyright  Copyright (C) 2017
- * @license    Proprietary
- * @author     Gagandeep Gambhir
+ * @created    30-09-2017
  */
 
-$title_for_layout = isset($title_for_layout) ? $title_for_layout : "Reports Manager";
+$title_for_layout = isset($title_for_layout) ? $title_for_layout : "Charts Manager";
 
 $disabled = $action == "admin_edit" ? "disabled" : "";   
 
-$action_title = $action == "admin_add" ? "Add Report" : "Edit Report";
+$action_title = $action == "admin_add" ? "Add Chart " : "Edit Chart";
+
+$action_title .= " - " . ReportTypes::$list[$type];
 ?>
 
 <div class="page-bar">
@@ -43,20 +41,9 @@ $action_title = $action == "admin_add" ? "Add Report" : "Edit Report";
         ));
         
         echo $this->Form->hidden('id');
+        echo $this->Form->hidden('type', array('value' => $type));
     ?>
         <div class="form-body">
-            <div class="form-group">
-                <label class="control-label col-md-3 col-sm-4 col-xs-12">Type <span>*</span> :</label>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <?= $this->Form->input('type', array(
-                        "type" => "select",
-                        "class" => "form-control select2",
-                        'options' => ReportTypes::$list, 
-                        "empty" => DROPDOWN_EMPTY_VALUE,
-                        )); ?>
-                </div>
-            </div>
-            
             <div class="form-group">
                 <label class="control-label col-md-3 col-sm-4 col-xs-12">Menu Link <span>*</span> :</label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -79,6 +66,18 @@ $action_title = $action == "admin_add" ? "Add Report" : "Edit Report";
                 <label class="control-label col-md-3 col-sm-4 col-xs-12">URL <span>*</span> :</label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <?= $this->Form->input('url', array('placeholder' => 'URL')); ?>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-4 col-xs-12">Status :</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="mt-checkbox-inline">
+                        <label class="mt-checkbox mt-checkbox-outline">
+                            <?= $this->Form->input('is_active', array('type' => 'checkbox')); ?> Active
+                            <span></span>
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>

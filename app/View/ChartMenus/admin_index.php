@@ -140,6 +140,13 @@ $title_for_layout = "Menu & Links Manager";
                         <a href="<?= $this->Html->url(array("action" => "admin_edit", $record[$model]['id'])); ?>" title="Edit" class="summary-link">
                             <i class="fa fa-edit icon blue-madison"></i>
                         </a>
+                        
+                        <?php if ( empty($record[$model]['children']) && empty($record['ChartReport']) ): ?>
+                            <a href="<?= $this->Html->url(array("action" => "admin_delete", $record[$model]['id'])); ?>"  class="summary-link"
+                            data-toggle="confirmation" data-singleton="true" data-popout="true" data-original-title="Are you sure to Delete ?">
+                                <i class="fa fa-trash-o icon font-red-sunglo"></i>
+                            </a>
+                        <?php endif; ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>

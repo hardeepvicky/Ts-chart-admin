@@ -1,2 +1,9 @@
 id,datetime,query,will_execute
 1,"2017-09-23 14:07:19","ALTER TABLE `companies` ADD COLUMN `is_active` TINYINT(1) NOT NULL DEFAULT 0 AFTER `cover_image`",1
+2,"2017-09-30 20:45:23","ALTER TABLE `chart_reports` ADD COLUMN `chart_type` INT(1) UNSIGNED NULL AFTER `type`, ADD COLUMN `options` TEXT NULL AFTER `csv_file`",0
+3,"2017-09-30 20:45:35","ALTER TABLE `chart_reports` DROP COLUMN `options`, DROP COLUMN `chart_type`",0
+4,"2017-09-30 20:45:39","ALTER TABLE `chart_reports` ADD COLUMN `chart_type` INT(1) UNSIGNED NULL AFTER `type`, ADD COLUMN `options` TEXT NULL AFTER `csv_file`",1
+5,"2017-10-01 00:23:54","ALTER TABLE `chart_menus` ADD COLUMN `display_order` INT(10) NOT NULL DEFAULT 0 AFTER `modified_by`",0
+6,"2017-10-01 00:24:00","ALTER TABLE `chart_menus` ADD COLUMN `display_order` INT(10) NOT NULL DEFAULT 0 AFTER `modified_by`",0
+7,"2017-10-01 00:24:11","ALTER TABLE `chart_menus` CHANGE COLUMN `display_order` `display_order` INT(10) NOT NULL DEFAULT '0' AFTER `fa_icon`",1
+8,"2017-10-01 00:25:18","ALTER TABLE `chart_reports` ADD COLUMN `display_order` INT(10) NOT NULL DEFAULT 0 AFTER `url`, ADD COLUMN `is_active` TINYINT(1) NOT NULL DEFAULT 0 AFTER `display_order`",1

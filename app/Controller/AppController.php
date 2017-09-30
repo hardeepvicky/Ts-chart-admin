@@ -90,7 +90,7 @@ class AppController extends BaseController
     /**
      *  Common edit record action
      */
-    protected function edit($id, $redirect = array())
+    protected function edit($id, $redirect = array(), $copy = false)
     {
         //Checks if no ID is passed to the action
         if (!$id)
@@ -111,14 +111,28 @@ class AppController extends BaseController
         if ($this->request->is('post') || $this->request->is('put'))
         {
             //Points the model to specific record
-            $this->{$this->modelClass}->id = $id;
+            if ($copy)
+            {
+                unset($this->request->data[$this->modelClass]['id']);
+                $this->{$this->modelClass}->create();
+            }
+            else
+            {
+                $this->{$this->modelClass}->id = $id;
+            }
             
             //Save the record
             if ($this->{$this->modelClass}->save($this->request->data))
             {
                 if($redirect)
                 {
-                    $this->Session->setFlash($this->modelClass . ' has been updated.', 'flash_success');
+                    $msg = $this->modelClass . ' has been updated.';
+                    if ($copy)
+                    {
+                        $msg = $this->modelClass . ' has been saved.';
+                    }
+                    
+                    $this->Session->setFlash($msg, 'flash_success');
                     $this->redirect($redirect);
                 }
                 else
@@ -128,7 +142,7 @@ class AppController extends BaseController
             }
             else  //Save error
             {
-                $this->Session->setFlash('Unable to update new ' . $this->modelClass . '.', 'flash_failure');
+                $this->Session->setFlash('Unable to save.', 'flash_failure');
             }
         }
         
@@ -140,7 +154,7 @@ class AppController extends BaseController
         
         return false;
     }
-
+    
     /*
      * Common action for delete record
      */

@@ -8,7 +8,7 @@ class UsersController extends AppController
             parent::beforeFilter();
         }
         
-        $this->Auth->allow('login', 'activate', 'signup', 'signup_send_email', 'account_created', 'logout', "acl", "forgot_password"); 
+        $this->Auth->allow('login', 'activate', 'signup', 'signup_send_email', 'account_created', 'logout', "acl", "forgot_password", "clearCache"); 
         // We can remove this line after we're finished
     }
 

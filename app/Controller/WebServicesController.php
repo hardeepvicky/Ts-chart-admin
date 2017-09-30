@@ -100,7 +100,10 @@ class WebServicesController extends Controller
             ),
             "contain" => array(
                 "ChartReport" => array(
-                    "fields" => array("type", "name", "csv_file", "url")
+                    "fields" => array("id", "type", "name", "url"),
+                    "conditions" => array(
+                        "is_active" => 1
+                    )
                 )
             )
         ));

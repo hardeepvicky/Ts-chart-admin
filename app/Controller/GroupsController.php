@@ -25,7 +25,7 @@ class GroupsController extends AppController
         $this->render('form');
     }
 
-    public function edit($id, $redirect = array("action" => "index"))
+    public function edit($id, $redirect = array("action" => "index"), $copy = false)
     {
         //Calls the parent add functions
         parent::edit($id, $redirect);

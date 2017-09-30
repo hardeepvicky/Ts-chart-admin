@@ -61,6 +61,16 @@ class ChartMenusController extends AppController
         $this->render('admin_form');
     }
     
+    public function admin_delete($id)
+    {
+        parent::delete($id, array("action" => "admin_index"));
+    }
+    
+    public function admin_toggleStatus($id)
+    {
+        $this->toggleStatus($id);
+    }
+    
     private function _setList()
     {
         $this->{$this->modelClass}->recursive = -1;

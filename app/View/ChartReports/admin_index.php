@@ -1,12 +1,8 @@
 <?php
 /**
- * @created    06-03-2017
- * @package    Dairy
- * @copyright  Copyright (C) 2017
- * @license    Proprietary
- * @author     Gagandeep Gambhir
+ * @created    30-09-2017
  */
-$title_for_layout = "Menu & Links Manager";
+$title_for_layout = "Charts Manager";
 ?>
 
 <div class="page-bar">
@@ -72,7 +68,8 @@ $title_for_layout = "Menu & Links Manager";
                     <th> Link </th>
                     <th> <?= $this->Paginator->sort('name', __('Name')); ?> </th>
                     <th> Type </th>
-                    <th style="width : 12%;"> Actions </th>
+                    <th style="width : 8%;"> <?= $this->Paginator->sort('is_active', __('Status')); ?> </th>
+                    <th style="width : 20%;"> Actions </th>
                 </tr>
             </thead>
             <tbody>
@@ -83,8 +80,21 @@ $title_for_layout = "Menu & Links Manager";
                     <td><?= $record[$model]['name']; ?></td>
                     <td><?= ReportTypes::$list[$record[$model]['type']]; ?></td>
                     <td>
+                        <a href="<?= $this->Html->url(array("action" => "admin_toggleStatus", $record[$model]['id'])); ?>">
+                            <i class="fa <?= $record[$model]['is_active'] ? "fa-check-circle-o font-green-meadow icon" : "fa-times-circle-o font-red-sunglo icon" ?>"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="<?= $this->Html->url(array("action" => "draw_chart", "admin" => false, $record[$model]['id'])); ?>" title="Edit" class="summary-link" target="_black">
+                            Preview
+                        </a>
+                        
                         <a href="<?= $this->Html->url(array("action" => "admin_edit", $record[$model]['id'])); ?>" title="Edit" class="summary-link">
                             <i class="fa fa-edit icon blue-madison"></i>
+                        </a>
+                        
+                        <a href="<?= $this->Html->url(array("action" => "admin_edit", $record[$model]['id'], "1")); ?>" title="Edit" class="summary-link">
+                            <i class="fa fa-copy icon font-green"></i>
                         </a>
                         
                         <a href="<?= $this->Html->url(array("action" => "admin_delete", $record[$model]['id'])); ?>"  class="summary-link"

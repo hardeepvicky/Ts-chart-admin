@@ -3,7 +3,7 @@ class Menu
 {
     public static $links = array(
         array(
-            "title" => "Member Manager",
+            "title" => "Members",
             "icon_class" => "icon-layers",
             "links" => array(
                 array(
@@ -69,7 +69,7 @@ class Menu
             )
         ),
         array(
-            "title" => "Reports",
+            "title" => "Charts",
             "icon_class" => "icon-layers",
             "links" => array(
                 array(
