@@ -126,7 +126,7 @@ echo $this->Form->hidden('type', array('value' => $type));
                 <div class="row">
                     <label class="control-label col-sm-6 col-xs-12">Legend Max Lines</label>
                     <div class="col-sm-5 col-xs-12">
-                        <?= $this->Form->input('options.common.legend.maxLines'); ?>
+                        <?= $this->Form->input('options.common.legend.maxLines', array('class' => 'form-control validate-int')); ?>
                     </div>
                 </div>
             </div>
@@ -150,7 +150,7 @@ echo $this->Form->hidden('type', array('value' => $type));
                         <div class="row">
                             <label class="control-label col-sm-4 col-xs-12">Pie Hole <span>*</span> :</label>
                             <div class="col-sm-5 col-xs-12">
-                                <?= $this->Form->input('options.pie.pieHole', array('placeholder' => 'Pie Hole')); ?>
+                                <?= $this->Form->input('options.pie.pieHole', array('placeholder' => 'Pie Hole', 'class' => 'form-control validate-float')); ?>
                             </div>
                         </div>
                     </div>
@@ -176,7 +176,7 @@ echo $this->Form->hidden('type', array('value' => $type));
                         <div class="row">
                             <label class="control-label col-sm-6 col-xs-12">H-axis min value</label>
                             <div class="col-sm-5 col-xs-12">
-                                <?= $this->Form->input('options.bar.hAxis.minValue'); ?>
+                                <?= $this->Form->input('options.bar.hAxis.minValue', array('class' => 'form-control validate-float')); ?>
                             </div>
                         </div>
                     </div>
@@ -202,7 +202,7 @@ echo $this->Form->hidden('type', array('value' => $type));
                         <div class="row">
                             <label class="control-label col-sm-6 col-xs-12">V-axis min value</label>
                             <div class="col-sm-5 col-xs-12">
-                                <?= $this->Form->input('options.column.vAxis.minValue'); ?>
+                                <?= $this->Form->input('options.column.vAxis.minValue', array('class' => 'form-control validate-float')); ?>
                             </div>
                         </div>
                     </div>
@@ -227,7 +227,9 @@ echo $this->Form->hidden('type', array('value' => $type));
                         <div class="row">
                             <label class="control-label col-sm-6 col-xs-12">Point Size</label>
                             <div class="col-sm-5 col-xs-12">
-                                <?= $this->Form->input('options.line.pointSize'); ?>
+                                <?= $this->Form->input('options.line.pointSize', array('class' => 'form-control validate-float validate-more-than-equal', 
+                                    'data-more-than-equal-from' => 0, 
+                                    'data-more-than-equal-msg' => 'Should not be less than 0')); ?>
                             </div>
                         </div>
                     </div>
@@ -252,7 +254,7 @@ echo $this->Form->hidden('type', array('value' => $type));
                         <div class="row">
                             <label class="control-label col-sm-6 col-xs-12">V Axis min value</label>
                             <div class="col-sm-5 col-xs-12">
-                                <?= $this->Form->input('options.area.vAxis.minValue'); ?>
+                                <?= $this->Form->input('options.area.vAxis.minValue', array('class' => 'form-control validate-float')); ?>
                             </div>
                         </div>
                     </div>

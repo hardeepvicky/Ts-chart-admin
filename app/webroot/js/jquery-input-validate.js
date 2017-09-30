@@ -2,7 +2,7 @@
  * @author     Hardeep
  */
 var intRegex = /\D/g;
-var floatRegex = /[^\d.]/g;
+var floatRegex = /[^-?\d.]/g;
 var alphabetRegex = /[^A-Za-z\s]/g;
 
 jQuery.fn.extend({
