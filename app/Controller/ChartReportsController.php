@@ -16,10 +16,10 @@ class ChartReportsController extends AppController
         
         $records = $this->paginate($this->modelClass, $conditions);
         
-        $this->_setList();
+        $menu_link_list = $this->{$this->modelClass}->ChartMenu->getTreeList();
         
         //setting variables
-        $this->set(compact('records'));
+        $this->set(compact('records', 'menu_link_list'));
     }
     
     /**
@@ -48,9 +48,14 @@ class ChartReportsController extends AppController
         $this->render('admin_form');
     }
     
+    public function admin_delete($id)
+    {
+        parent::delete($id, array("action" => "admin_index"));
+    }
+    
     private function _setList()
     {
-        $menu_link_list = $this->{$this->modelClass}->ChartMenu->getTreeList();
+        $menu_link_list = $this->{$this->modelClass}->ChartMenu->getTreeList("id", "name", ["is_active" => 1]);
         
         $this->set(compact('menu_link_list'));
     }
