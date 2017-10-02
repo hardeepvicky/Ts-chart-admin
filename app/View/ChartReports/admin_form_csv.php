@@ -86,11 +86,14 @@ echo $this->Form->hidden('type', array('value' => $type));
                 ));
                 ?>
             </div>
+            <div class="col-md-3">
+                <a href="#" id="sample-file-download">Download Sample</a>
+            </div>
         </div>
 
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-4 col-xs-12">CSV <span>*</span> :</label>
-            <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="col-md-4 col-sm-6 col-xs-12">
                 <?= $this->Form->input('csv_file', array('type' => 'file', 'class' => '', 'required' => false)); ?>
             </div>
         </div>
@@ -288,12 +291,24 @@ echo $this->Form->hidden('type', array('value' => $type));
         $(".chart-type").change(function ()
         {
             $(".options-form").hide();
+            $("a#sample-file-download").hide();
             
             var v = $(this).val();
             
             if (v)
             {
                 $("#options-form-" + v).show();
+                
+                if (v == '<?= ChartTypes::PIE ?>')
+                {
+                    $("a#sample-file-download").attr("href", '/files/Samples/pie-sample-data.csv');
+                }
+                else
+                {
+                    $("a#sample-file-download").attr("href", '/files/Samples/bar-line-area-column-sample-data.csv');
+                }
+                
+                $("a#sample-file-download").show();
             }
         });
         

@@ -86,7 +86,19 @@ $edit_action = $action == "admin_company_sub_manager_summary" ? "admin_add_compa
                     <td><?= $record[$model]['email']; ?></td>
                     
                     <td>
-                        <a href="<?= $this->Html->url(array("action" => "admin_toggleStatus", $record[$model]['id'])); ?>">
+                        <?php
+                            $toggle_action = "";
+                            
+                            if ($record[$model]['group_id'] == GROUP_COMPANY_SUB_ADMIN)
+                            {
+                                $toggle_action = 'admin_sub_manager_toggleStatus';
+                            }
+                            else
+                            {
+                                $toggle_action = 'admin_members_toggleStatus';
+                            }
+                        ?>
+                        <a href="<?= $this->Html->url(array("action" => $toggle_action, $record[$model]['id'])); ?>">
                             <i class="fa <?= $record[$model]['is_active'] ? "fa-check-circle-o font-green-meadow icon" : "fa-times-circle-o font-red-sunglo icon" ?>"></i>
                         </a>
                     </td>

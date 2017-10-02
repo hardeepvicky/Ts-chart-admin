@@ -31,7 +31,18 @@ class Menu
                         "action" => "company_sub_manager_summary",
                         "admin" => true
                     ),
-                    "other_links" => array(),
+                    "other_links" => array(
+                        array(
+                            "controller" => "users",
+                            "action" => "add_company_sub_manager",
+                            "admin" => true
+                        ),
+                        array(
+                            "controller" => "users",
+                            "action" => "edit_company_sub_manager",
+                            "admin" => true
+                        )
+                    ),
                     "is_home_page" => true,
                 ),
                 array(
@@ -42,7 +53,18 @@ class Menu
                         "action" => "company_members_summary",
                         "admin" => true
                     ),
-                    "other_links" => array(),
+                    "other_links" => array(
+                        array(
+                            "controller" => "users",
+                            "action" => "add_company_member",
+                            "admin" => true
+                        ),
+                        array(
+                            "controller" => "users",
+                            "action" => "edit_company_member",
+                            "admin" => true
+                        )
+                    ),
                     "is_home_page" => true,
                 ),
             )
@@ -64,13 +86,19 @@ class Menu
                 ),
                 array(
                     "title" => "Add",
-                    "icon_class" => "fa fa-reorder",
+                    "icon_class" => "fa fa-plus",
                     "link" => array(
                         "controller" => "ChartMenus",
                         "action" => "add",
                         "admin" => true
                     ),
-                    "other_links" => array(),
+                    "other_links" => array(
+                        array(
+                           "controller" => "ChartMenus",
+                           "action" => "edit",
+                           "admin" => true
+                        )   
+                    ),
                 ),
             )
         ),
@@ -91,13 +119,19 @@ class Menu
                 ),
                 array(
                     "title" => "Add",
-                    "icon_class" => "fa fa-reorder",
+                    "icon_class" => "fa fa-plus",
                     "link" => array(
                         "controller" => "ChartReports",
                         "action" => "add",
                         "admin" => true
                     ),
-                    "other_links" => array(),
+                    "other_links" => array(
+                        array(
+                           "controller" => "ChartReports",
+                           "action" => "edit",
+                           "admin" => true
+                        )
+                    ),
                 ),
             )
         ),
@@ -121,7 +155,12 @@ class Menu
                         "controller" => "EmailTemplates",
                         "action" => "add", "admin" => TRUE
                     ),
-                    "other_links" => array(),
+                    "other_links" => array(
+                        array(
+                            "controller" => "EmailTemplates",
+                            "action" => "edit", "admin" => TRUE
+                        )
+                    ),
                 ),
             )
         ),

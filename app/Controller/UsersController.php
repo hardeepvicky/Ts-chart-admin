@@ -158,10 +158,20 @@ class UsersController extends AppController
         $this->set(compact('title_for_layout', 'action_title'));
         $this->render('admin_form_company_user');
     }
-
+    
     public function admin_toggleStatus($id)
     {
         $this->toggleStatus($id);
+    }
+
+    public function admin_sub_manager_toggleStatus($id)
+    {
+        $this->toggleStatus($id, array("action" => "admin_company_sub_manager_summary"));
+    }
+    
+    public function admin_members_toggleStatus($id)
+    {
+        $this->toggleStatus($id, array("action" => "admin_company_members_summary"));
     }
 
     public function login()
@@ -481,6 +491,8 @@ class UsersController extends AppController
         $this->Acl->allow($group, 'controllers/Users/admin_add_company_member');
         $this->Acl->allow($group, 'controllers/Users/admin_edit_company_member');
         $this->Acl->allow($group, 'controllers/Users/admin_toggleStatus');
+        $this->Acl->allow($group, 'controllers/Users/admin_sub_manager_toggleStatus');
+        $this->Acl->allow($group, 'controllers/Users/admin_members_toggleStatus');
         $this->Acl->allow($group, 'controllers/Users/admin_change_password');
 
         $group->id = GROUP_COMPANY_SUB_ADMIN;

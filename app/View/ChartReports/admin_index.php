@@ -78,14 +78,21 @@ $title_for_layout = "Charts Manager";
                     <td><?= $record[$model]['id']; ?></td>
                     <td><?= $menu_link_list[$record[$model]['chart_menu_id']]; ?></td>
                     <td><?= $record[$model]['name']; ?></td>
-                    <td><?= ReportTypes::$list[$record[$model]['type']]; ?></td>
+                    <td>
+                        <?= ReportTypes::$list[$record[$model]['type']]; ?>
+                        <?php if (ReportTypes::INTERNAL): ?>
+                            <a href="/<?= PATH_CHART_CSV_FILES . $record[$model]['csv_file'] ?>" class="summary-link">
+                                <i class="fa fa-download"></i>
+                            </a>
+                        <?php endif; ?>
+                    </td>
                     <td>
                         <a href="<?= $this->Html->url(array("action" => "admin_toggleStatus", $record[$model]['id'])); ?>">
                             <i class="fa <?= $record[$model]['is_active'] ? "fa-check-circle-o font-green-meadow icon" : "fa-times-circle-o font-red-sunglo icon" ?>"></i>
                         </a>
                     </td>
                     <td>
-                        <a href="<?= $this->Html->url(array("action" => "draw_chart", "admin" => false, $record[$model]['id'])); ?>" title="Edit" class="summary-link" target="_black">
+                        <a href="<?= $this->Html->url(array("action" => "draw_chart", "admin" => false, $record[$model]['id'])); ?>" class="summary-link" target="_black">
                             Preview
                         </a>
                         
@@ -93,7 +100,7 @@ $title_for_layout = "Charts Manager";
                             <i class="fa fa-edit icon blue-madison"></i>
                         </a>
                         
-                        <a href="<?= $this->Html->url(array("action" => "admin_edit", $record[$model]['id'], "1")); ?>" title="Edit" class="summary-link">
+                        <a href="<?= $this->Html->url(array("action" => "admin_edit", $record[$model]['id'], "1")); ?>" title="Copy" class="summary-link">
                             <i class="fa fa-copy icon font-green"></i>
                         </a>
                         
