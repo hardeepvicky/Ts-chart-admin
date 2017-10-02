@@ -108,6 +108,10 @@ $title_for_layout = "Menu & Links Manager";
                             echo $record[$model]['name']; 
                         }
                         ?>
+                        
+                        <?php if ($record[$model]['is_private']): ?>
+                            <i class="fa fa-lock" title="Private"></i>
+                        <?php endif; ?>
                     </td>
                     <td>
                         <?php

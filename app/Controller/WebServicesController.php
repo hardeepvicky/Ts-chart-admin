@@ -93,7 +93,7 @@ class WebServicesController extends Controller
         $this->loadModel("ChartMenu");
         
         $tree = $this->ChartMenu->getTree(array(
-            "fields" => array("id", "parent_id", "name", "type", "fa_icon"),
+            "fields" => array("id", "parent_id", "name", "type", "fa_icon", "is_private"),
             "conditions" => array(
                 "company_id" => $this->companyID,
                 "is_active" => 1

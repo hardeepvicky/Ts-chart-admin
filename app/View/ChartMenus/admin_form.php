@@ -77,6 +77,18 @@ $action_title = $action == "admin_add" ? "Add Menu or Link" : "Edit Menu or Link
             </div>
             
             <div class="form-group">
+                <label class="control-label col-md-3 col-sm-4 col-xs-12">Private :</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="mt-checkbox-inline">
+                        <label class="mt-checkbox mt-checkbox-outline" style="margin-bottom: 0;">
+                            <?= $this->Form->input('is_private', array('type' => 'checkbox')); ?> Only Company Admin, Sub-Admins and Members can see
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
                 <label class="control-label col-md-3 col-sm-4 col-xs-12">Status :</label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="mt-checkbox-inline">
