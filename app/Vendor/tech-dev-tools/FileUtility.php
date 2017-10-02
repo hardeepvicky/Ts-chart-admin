@@ -56,6 +56,7 @@ class FileUtility
        $dest_path .=  "/";
        
        self::createFolder($dest_path);
+       chmod($dest_path, 0777);
        
        $this->path = $dest_path;
        
@@ -74,7 +75,13 @@ class FileUtility
            $this->file = self::getAutoincreamentFileName($this->filename, $this->extension, $dest_path);
        }
        
-       return move_uploaded_file($file['tmp_name'], $this->path . $this->file);
+       if ( !move_uploaded_file($file['tmp_name'], $this->path . $this->file))
+       {
+           $this->errors[] = "Failed to upload file";
+           return false;
+       }
+       
+       return true;
    }   
    
    /**
