@@ -58,7 +58,7 @@
     <body class="login">
         <!-- BEGIN LOGO -->
         <div class="logo">
-            <img src="/img/company_name_black.png" alt="" /> 
+            <img src="/img/company_name.png" alt="" /> 
         </div>
         <!-- END LOGO -->
         

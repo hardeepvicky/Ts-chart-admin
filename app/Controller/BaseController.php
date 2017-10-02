@@ -98,25 +98,6 @@ class BaseController extends Controller
             return false;
         }
         
-//        $headers = "From: " . strip_tags($from) . "\r\n";
-//        $headers .= "CC: ". implode(",", $cc) ."\r\n";
-//        $headers .= "BCC: ". implode(",", $bcc) ."\r\n";
-//        $headers .= "MIME-Version: 1.0\r\n";
-//        $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-//                
-//        $message = '<html><body>';
-//        $message .= $content;
-//        $message .= "</body></html>";
-//        
-//        try
-//        {
-//            return @mail($to, $subject, $message, $headers);
-//        }
-//        catch(Exception $ex)
-//        {
-//            return false;
-//        }
-        
         $email = new CakeEmail();
 
         $email->from(array($from => SITE_NAME));

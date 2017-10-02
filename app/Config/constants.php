@@ -1,9 +1,10 @@
 <?php
 // Site Name
-define("SITE_NAME", "Resume");
+define("SITE_NAME", "TS Chart Admin");
 define("CSS_VERSION", 2);
 define("SITE_URL", "http://" . $_SERVER['HTTP_HOST'] . "/");
 define("CURL_REQUEST", 4263);
+define("FROM_EMAIL", 'hardeep@techformation.co.in');
 
 define("DROPDOWN_EMPTY_VALUE", "Please Select");
 

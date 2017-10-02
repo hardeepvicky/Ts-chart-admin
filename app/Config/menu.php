@@ -3,7 +3,7 @@ class Menu
 {
     public static $links = array(
         array(
-            "title" => "Members",
+            "title" => "Compaines",
             "icon_class" => "icon-layers",
             "links" => array(
                 array(
@@ -17,6 +17,12 @@ class Menu
                     "other_links" => array(),
                     "is_home_page" => true,
                 ),
+            )
+        ),
+        array(
+            "title" => "Members",
+            "icon_class" => "icon-layers",
+            "links" => array(
                 array(
                     "title" => "Sub Admins",
                     "icon_class" => "fa fa-reorder",
@@ -90,6 +96,30 @@ class Menu
                         "controller" => "ChartReports",
                         "action" => "add",
                         "admin" => true
+                    ),
+                    "other_links" => array(),
+                ),
+            )
+        ),
+        array(
+            "title" => "Email Templates",
+            "icon_class" => "icon-layers",
+            "links" => array(
+                array(
+                    "title" => "Summary",
+                    "icon_class" => "fa fa-reorder",
+                    "link" => array(
+                        "controller" => "EmailTemplates",
+                        "action" => "index", "admin" => TRUE
+                    ),
+                    "other_links" => array(),
+                ),
+                array(
+                    "title" => "Add",
+                    "icon_class" => "fa fa-reorder",
+                    "link" => array(
+                        "controller" => "EmailTemplates",
+                        "action" => "add", "admin" => TRUE
                     ),
                     "other_links" => array(),
                 ),

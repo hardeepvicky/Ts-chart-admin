@@ -2,7 +2,8 @@
     .page-header.navbar .page-logo .logo-default {
         margin-top: 8px;
         max-width: 166px;
-        height : 32px;
+        height : 20px;
+        margin-top: 12px;
     }
 </style>
 <div class="page-header navbar navbar-fixed-top">
@@ -27,14 +28,6 @@
                         <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-default">
-                        <li>
-                            <?php 
-                                echo $this->Html->link("<i class='fa fa-cogs'></i> Settings", 
-                                    array( "controller" => "settings", "action" => "system_setting", "admin" => true),
-                                    array( "escape" => false)
-                                );
-                            ?>
-                        </li>
                         <li>
                             <?php 
                                 echo $this->Html->link("<i class='fa fa-lock'></i> Change Password", 

@@ -25,15 +25,15 @@ $title_for_layout = "Company Admins"
 
 <div class="data__filter">
     <div class="form__structure shadow">
-        <?php 
-            echo $this->Form->create($model, array(
-                'type' => 'GET', 
-                'class' => 'form-horizontal form-row-seperated',
-                'inputDefaults' => array(
-                    'label' => false, 'div' => false, 'div' => false, "escape" => false, 
-                    "class" => "form-control", "type" => "text", "required" => false
-                )
-            ));
+        <?php
+        echo $this->Form->create($model, array(
+            'type' => 'GET',
+            'class' => 'form-horizontal form-row-seperated',
+            'inputDefaults' => array(
+                'label' => false, 'div' => false, 'div' => false, "escape" => false,
+                "class" => "form-control", "type" => "text", "required" => false
+            )
+        ));
         ?>
         <div class="row">
             <div class="col-md-12 col-xs-12">
@@ -42,7 +42,7 @@ $title_for_layout = "Company Admins"
                         <div class="form-group">
                             <label class="control-label col-md-6 col-sm-6 col-xs-12">Username / Name / Email :</label>
                             <div class="col-md-5 col-sm-5 col-xs-12">
-                                <?= $this->Form->input('username', array('value' => ${$model . "username"}));?>
+                                <?= $this->Form->input('username', array('value' => ${$model . "username"})); ?>
                             </div>
                         </div>
                     </div>
@@ -68,7 +68,7 @@ $title_for_layout = "Company Admins"
                     <th style="width : 10%;"> <?= $this->Paginator->sort('id', __('Id')); ?> </th>
                     <th> <?= $this->Paginator->sort('firstname', __('First Name')); ?> </th>
                     <th> <?= $this->Paginator->sort('lastname', __('Last Name')); ?> </th>
-                    <th> Company </th>
+                    <th> Company (Code) </th>
                     <th> <?= $this->Paginator->sort('username', __('Username')); ?> </th>
                     <th> <?= $this->Paginator->sort('email', __('Email')); ?> </th>
                     <th>Actions</th>
@@ -76,31 +76,105 @@ $title_for_layout = "Company Admins"
             </thead>
             <tbody>
                 <?php foreach ($records as $record): ?>
-                <tr class="odd gradeX center">
-                    <td><?= $record[$model]['id']; ?></td>
-                    <td><?= $record[$model]['firstname']; ?></td>
-                    <td><?= $record[$model]['lastname']; ?></td>
-                    <td>
-                        <?= $record['Company']['name']; ?>
-                        <?php if (!$record['Company']['is_active']): ?>
-                            <i class="fa fa-ban font-red"></i>
-                        <?php endif; ?>
-                    </td>
-                    <td><?= $record[$model]['username']; ?></td>
-                    <td><?= $record[$model]['email']; ?></td>
-                    <td>
-                        <a href="<?= $this->Html->url(array("controller" => "Companies", "action" => "admin_toggleStatus", $record['Company']['id'])); ?>" title="Edit" class="summary-link">
-                            <?php if ($record['Company']['is_active']): ?>
-                                <span class="font-red">Block Company</span>
-                            <?php else: ?>
-                                <span class="font-blue"> Un-Block Company</span>
+                    <tr class="odd gradeX center">
+                        <td><?= $record[$model]['id']; ?></td>
+                        <td><?= $record[$model]['firstname']; ?></td>
+                        <td><?= $record[$model]['lastname']; ?></td>
+                        <td>
+                            <?= $record['Company']['name']; ?> (<?= $record['Company']['code']; ?>)
+                            <?php if (!$record['Company']['is_active']): ?>
+                                <i class="fa fa-ban font-red"></i>
                             <?php endif; ?>
-                        </a>
-                    </td>
-                </tr>
+                        </td>
+                        <td><?= $record[$model]['username']; ?></td>
+                        <td><?= $record[$model]['email']; ?></td>
+                        <td>
+                            <a href="#" data-company-id="<?= $record['Company']['id']; ?>" 
+                               title="Edit" class="summary-link block-company" data-toggle="modal" data-target="#<?= $record['Company']['is_active'] ? 'company-block-model' : 'company-unblock-model' ?>">
+                                <?php if ($record['Company']['is_active']): ?>
+                                    <span class="font-red">Block Company</span>
+                                <?php else: ?>
+                                    <span class="font-blue"> Un-Block Company</span>
+                                <?php endif; ?>
+                            </a>
+                        </td>
+                    </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
     <?= $this->element("pagination") ?>
 </div>
+
+<div class="modal fade" id="company-block-model" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <?php
+            echo $this->Form->create($model, array(
+                'url' => array(
+                    'controller' => 'Companies', 'action' => 'admin_block'
+                ),
+            ));
+            ?>
+            
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    Tell Reason to block company
+                </h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="company_id">
+                <textarea name="msg" class="form-control" style="width: 100%;"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-danger">Block</button>
+            </div>
+            
+            <?= $this->Form->end(); ?>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="company-unblock-model" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <?php
+            echo $this->Form->create($model, array(
+                'url' => array(
+                    'controller' => 'Companies', 'action' => 'admin_unblock'
+                ),
+            ));
+            ?>
+            
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                   Say Something
+                </h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="company_id">
+                <textarea name="msg" class="form-control" style="width: 100%;"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Unblock</button>
+            </div>
+            
+            <?= $this->Form->end(); ?>
+        </div>
+    </div>
+</div>
+
+<script type='text/javascript'>
+    $(document).ready(function() {
+        
+        $("a.block-company").click(function()
+        {
+            var company_id = $(this).data("company-id");
+            $("input[name='company_id']").val(company_id);
+        });
+    })
+</script>

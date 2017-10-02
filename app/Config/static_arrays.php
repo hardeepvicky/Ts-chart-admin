@@ -10,13 +10,15 @@ Class StaticArray
 Class EmailTypes
 {
     const ACCOUNT_ACTIVATE = 1;
-    const FORGOT_PASSWORD = 2;
-    const RESUME_PUBLISH = 3;
+    const COMPANY_BLOCK = 2;
+    const COMPANY_UNBLOCK = 3;
+    const FORGOT_PASSWORD = 4;
     
     public static $list = array(
         self::ACCOUNT_ACTIVATE => "Account Activate",
+        self::COMPANY_BLOCK => "Company Blocked",
+        self::COMPANY_UNBLOCK => "Company Un-Blocked",
         self::FORGOT_PASSWORD => "Forgot password",
-        self::RESUME_PUBLISH => "Resume Publish",
     );
 }
 
