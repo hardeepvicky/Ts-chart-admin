@@ -143,9 +143,12 @@ class ChartReport extends AppModel
         
         foreach($records as $k => $record)
         {
-            if ($record['ChartReport']['type'] == ReportTypes::INTERNAL)
+            if (isset($record['ChartReport']['type']))
             {
-                $records[$k]['ChartReport']['url'] = SITE_URL . "ChartReports/draw_chart/" . $record['ChartReport']['id'];
+                if ($record['ChartReport']['type'] == ReportTypes::INTERNAL)
+                {
+                    $records[$k]['ChartReport']['url'] = SITE_URL . "ChartReports/draw_chart/" . $record['ChartReport']['id'];
+                }
             }
         }
         

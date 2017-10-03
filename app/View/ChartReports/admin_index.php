@@ -80,7 +80,7 @@ $title_for_layout = "Charts Manager";
                     <td><?= $record[$model]['name']; ?></td>
                     <td>
                         <?= ReportTypes::$list[$record[$model]['type']]; ?>
-                        <?php if (ReportTypes::INTERNAL): ?>
+                        <?php if ($record[$model]['type'] == ReportTypes::INTERNAL): ?>
                             <a href="/<?= PATH_CHART_CSV_FILES . $record[$model]['csv_file'] ?>" class="summary-link">
                                 <i class="fa fa-download"></i>
                             </a>
