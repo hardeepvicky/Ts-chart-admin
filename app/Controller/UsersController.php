@@ -500,7 +500,9 @@ class UsersController extends AppController
 
         $this->Acl->allow($group, 'controllers/ChartMenus');
         $this->Acl->allow($group, 'controllers/ChartReports');
+        
         $this->Acl->allow($group, 'controllers/Users/admin_company_members_summary');
+        $this->Acl->allow($group, 'controllers/Users/admin_members_toggleStatus');
         $this->Acl->allow($group, 'controllers/Users/admin_change_password');
 
         // we add an exit to avoid an ugly "missing views" error message

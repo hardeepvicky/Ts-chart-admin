@@ -166,7 +166,7 @@ class WebServicesController extends Controller
         }
         
         AppModel::$authUser = $record['User'];
-        $this->companyID = AppModel::$authUser['User']['company_id'];
+        $this->companyID = AppModel::$authUser['company_id'];
     }
     
     private function _log_save($json)
