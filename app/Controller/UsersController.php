@@ -232,7 +232,9 @@ class UsersController extends AppController
                     {
                         throw new Exception("Failed to save Company");
                     }
-
+                    
+                    $this->{$this->modelClass}->Company->saveField("code", $this->{$this->modelClass}->Company->id);
+                            
                     $this->request->data["User"]["company_id"] = $this->{$this->modelClass}->Company->id;
                     $this->request->data["User"]["group_id"] = GROUP_COMPANY_ADMIN;
 
@@ -297,6 +299,7 @@ class UsersController extends AppController
         $content = $template['EmailTemplate']['body'];
         $to_email = $user['User']['email'];
 
+        $placeholder_values['Company.code'] = $user['Company']['code'];
         $placeholder_values['Company.name'] = $user['Company']['name'];
         $placeholder_values['User.firstname'] = $user['User']['firstname'];
         $placeholder_values['User.lastname'] = $user['User']['lastname'];
