@@ -119,6 +119,14 @@ echo $this->Form->hidden('type', array('value' => $type));
         <div class="form-group">
             <div class="col-md-4">
                 <div class="row">
+                    <label class="control-label col-sm-6 col-xs-12">Title</label>
+                    <div class="col-sm-6 col-xs-12">
+                        <?= $this->Form->input('options.common.title', array('type' => 'text')); ?>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="row">
                     <label class="control-label col-sm-6 col-xs-12">Legend Position</label>
                     <div class="col-sm-6 col-xs-12">
                         <?= $this->Form->input('options.common.legend.position', array('type' => 'select', 'empty' => DROPDOWN_EMPTY_VALUE, 'options' => $legend_options)); ?>

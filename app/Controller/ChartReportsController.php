@@ -198,7 +198,6 @@ class ChartReportsController extends AppController
         }
         
         $options = $this->unsetIfEmpty($options);
-        $options['title'] = $record[$this->modelClass]['name'];
         
         $this->set(compact('chart_data', 'record', 'options'));
         $this->layout = null;

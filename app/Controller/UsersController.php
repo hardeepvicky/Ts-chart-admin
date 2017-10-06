@@ -303,6 +303,10 @@ class UsersController extends AppController
         $placeholder_values['Company.name'] = $user['Company']['name'];
         $placeholder_values['User.firstname'] = $user['User']['firstname'];
         $placeholder_values['User.lastname'] = $user['User']['lastname'];
+        
+        $link  = SITE_URL . 'Users/activate/' . $user['User']['activation_token'];
+        
+        $placeholder_values['User.activation_l'] = '<a href="' . $link . '">Click here to Activate Account</a>';
 
         foreach ($placeholder_values as $placeholder => $val)
         {
