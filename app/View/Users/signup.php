@@ -1,4 +1,4 @@
-<div class="content" style="width : 500px;">
+<div class="content" style="width : 400px;">
     <?php 
     echo $this->Form->create('User', array(
         'inputDefaults' => array("label" => false, "div" => false, 'escape' => false)
