@@ -1,7 +1,7 @@
 <style>
     .page-header.navbar .page-logo .logo-default {
         margin-top: 8px;
-        max-width: 166px;
+        max-width: 80px;
         height : 20px;
         margin-top: 12px;
     }

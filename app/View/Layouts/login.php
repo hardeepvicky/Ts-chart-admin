@@ -37,7 +37,7 @@
             .login .logo img
             {
                 width : auto;
-                max-width: 300px;
+                max-width: 80px;
             }
             
             .login .content .form-group span
