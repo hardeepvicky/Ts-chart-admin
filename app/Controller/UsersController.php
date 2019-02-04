@@ -158,7 +158,7 @@ class UsersController extends AppController
         $this->set(compact('title_for_layout', 'action_title'));
         $this->render('admin_form_company_user');
     }
-    
+
     public function admin_toggleStatus($id)
     {
         $this->toggleStatus($id);
@@ -168,7 +168,7 @@ class UsersController extends AppController
     {
         $this->toggleStatus($id, array("action" => "admin_company_sub_manager_summary"));
     }
-    
+
     public function admin_members_toggleStatus($id)
     {
         $this->toggleStatus($id, array("action" => "admin_company_members_summary"));
@@ -189,7 +189,8 @@ class UsersController extends AppController
                     $this->Auth->logout();
                     $this->Session->setFlash('User is deactivated.', 'flash_failure');
                 }
-            } else
+            }
+            else
             {
                 $this->Session->setFlash('Username or password was incorrect.', 'flash_failure');
             }
@@ -232,9 +233,9 @@ class UsersController extends AppController
                     {
                         throw new Exception("Failed to save Company");
                     }
-                    
+
                     $this->{$this->modelClass}->Company->saveField("code", $this->{$this->modelClass}->Company->id);
-                            
+
                     $this->request->data["User"]["company_id"] = $this->{$this->modelClass}->Company->id;
                     $this->request->data["User"]["group_id"] = GROUP_COMPANY_ADMIN;
 
@@ -251,18 +252,20 @@ class UsersController extends AppController
                     $this->{$this->modelClass}->id = $this->request->data['User']["id"];
                     $this->{$this->modelClass}->saveField("activation_token", $activation_token);
 
-                    $this->_signup_send_email($this->request->data['User']["id"]);
-
                     $this->Session->setFlash('Account has been created. Email has been sent. To Acitivate the account verfiy your email.', 'flash_success');
 
                     $db->commit();
                     $this->redirect(array("action" => "account_created", $this->request->data['User']["id"]));
-                } catch (Exception $ex)
+                }
+                catch (Exception $ex)
                 {
                     $db->rollBack();
                     $this->Session->setFlash('Account fail to create.', 'flash_failure');
                 }
-            } else
+                
+                $this->_signup_send_email($this->request->data['User']["id"]);
+            }
+            else
             {
                 $this->Session->setFlash('Fail to create Account due to validation errors', 'flash_failure');
             }
@@ -303,10 +306,10 @@ class UsersController extends AppController
         $placeholder_values['Company.name'] = $user['Company']['name'];
         $placeholder_values['User.firstname'] = $user['User']['firstname'];
         $placeholder_values['User.lastname'] = $user['User']['lastname'];
-        
-        $link  = SITE_URL . 'Users/activate/' . $user['User']['activation_token'];
-        
-        $placeholder_values['User.activation_l'] = '<a href="' . $link . '">Click here to Activate Account</a>';
+
+        $link = SITE_URL . 'Users/activate/' . $user['User']['activation_token'];
+
+        $placeholder_values['Company.activation_link'] = '<a href="' . $link . '">Click here to Activate Account</a>';
 
         foreach ($placeholder_values as $placeholder => $val)
         {
@@ -355,7 +358,8 @@ class UsersController extends AppController
         if ($this->authUser['group_id'] == GROUP_ADMIN)
         {
             $this->redirect($this->Auth->logout());
-        } else
+        }
+        else
         {
             $this->Auth->logout();
             $this->redirect("/");
@@ -376,7 +380,8 @@ class UsersController extends AppController
             {
                 $this->User->validationErrors['username'] = 'Username not found';
                 $cansave = false;
-            } else if ($user['User']['password'] != $this->Auth->password($this->request->data['User']['password']))
+            }
+            else if ($user['User']['password'] != $this->Auth->password($this->request->data['User']['password']))
             {
                 $this->User->validationErrors['password'] = 'Password is incorrect';
                 $cansave = false;
@@ -395,7 +400,8 @@ class UsersController extends AppController
                 {
                     $this->Session->setFlash('Password changed successfully', "flash_success");
                     $this->redirect($this->referer());
-                } else
+                }
+                else
                 {
                     $this->Session->setFlash("Password could not be changed", "flash_failure");
                 }
@@ -417,7 +423,7 @@ class UsersController extends AppController
             if (empty($user))
             {
                 $this->Session->setFlash('Invalid Username', 'flash_failure');
-            } 
+            }
             else
             {
                 $user = $user["User"];
@@ -445,13 +451,13 @@ class UsersController extends AppController
                 $subject = $template['EmailTemplate']['subject'];
                 $content = $template['EmailTemplate']['body'];
 
-                foreach($placeholder_values as $placeholder => $val)
+                foreach ($placeholder_values as $placeholder => $val)
                 {
-                    $subject = str_replace("{" . $placeholder . "}", $val , $subject);
-                    $content = str_replace("{" . $placeholder . "}", $val , $content);
+                    $subject = str_replace("{" . $placeholder . "}", $val, $subject);
+                    $content = str_replace("{" . $placeholder . "}", $val, $content);
                 }
 
-                 $this->email(EmailTypes::FORGOT_PASSWORD, $user['email'], FROM_EMAIL, $subject, $content);
+                $this->email(EmailTypes::FORGOT_PASSWORD, $user['email'], FROM_EMAIL, $subject, $content);
 
                 $this->Session->setFlash('Email has been sent successfully.', 'flash_success');
             }
@@ -507,7 +513,7 @@ class UsersController extends AppController
 
         $this->Acl->allow($group, 'controllers/ChartMenus');
         $this->Acl->allow($group, 'controllers/ChartReports');
-        
+
         $this->Acl->allow($group, 'controllers/Users/admin_company_members_summary');
         $this->Acl->allow($group, 'controllers/Users/admin_members_toggleStatus');
         $this->Acl->allow($group, 'controllers/Users/admin_change_password');
@@ -530,7 +536,8 @@ class UsersController extends AppController
         if ($dispatcher->dispatch())
         {
             echo 'done';
-        } else
+        }
+        else
         {
             echo 'Error';
         }
